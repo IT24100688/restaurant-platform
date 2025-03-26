@@ -1,11 +1,11 @@
+<%@ page import="com.restaurant.service.ReservationService" %>
+<%@ page import="com.restaurant.model.Reservation" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<%@ page import="com.restaurant.service.ReservationService" %>
-<%@ page import="com.restaurant.model.Reservation" %>
-<%@ page import="java.util.List" %>
 
 <h2>All Reservations</h2>
 <table border="1">
