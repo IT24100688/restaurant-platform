@@ -1,19 +1,208 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reservation Form</title>
-    </head>
-    <body>
-    <form action="ReservationServlet" method="POST">
-        <input type="text" name="name">
-        <input type="text" name="contact">
-        <input type="time" name="reservationTime">
-        <button type="submit">Reserve</button>
-    </form>
-    </body>
-    </html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --linear-grad: linear-gradient(to right, #141E30, #243B55);
+            --grad-clr1: #141E30;
+            --grad-clr2: #243B55;
+        }
 
+        body {
+            height: 100vh;
+            background: #f6f5f7;
+            display: grid;
+            place-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            height: 600px;
+            background-color: #FFFF;
+            box-shadow: 25px 30px 55px #5557;
+            border-radius: 13px;
+            overflow: hidden;
+        }
+
+        .form-container {
+            position: absolute;
+            width: 60%;
+            height: 100%;
+            padding: 0px 40px;
+            transition: all 0.6s ease-in-out;
+        }
+
+        form {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0px 50px;
+        }
+
+        h1 {
+            color: var(--grad-clr1);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+
+        .infield {
+            position: relative;
+            margin: 12px 0px;
+            width: 100%;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #f3f3f3;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            resize: none;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        label {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            width: 0%;
+            height: 2px;
+            background: var(--linear-grad);
+            transition: 0.3s;
+        }
+
+        input:focus ~ label, textarea:focus ~ label {
+            width: 100%;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid var(--grad-clr1);
+            background: var(--grad-clr2);
+            color: #FFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 80ms ease-in;
+        }
+
+        button:hover {
+            background: #FFF;
+            color: var(--grad-clr1);
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 60%;
+            width: 40%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 9;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--linear-grad);
+            color: #FFF;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0px 40px;
+            text-align: center;
+            transition: 0.6s ease-in-out;
+        }
+
+        .overlay-panel h1 {
+            color: #FFF;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 25px 0px 35px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="confirmBooking.jsp" method="post">
+            <h1>Make Your Reservation</h1>
+            <div class="infield">
+                <input type="text" id="name" name="name" placeholder="Full Name" required />
+                <label></label>
+            </div>
+
+            <div class="infield">
+                <input type="email" id="email" name="email" placeholder="Email Address" required />
+                <label></label>
+            </div>
+
+            <div class="infield">
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required />
+                <label></label>
+            </div>
+
+            <div class="infield">
+                <textarea id="requests" name="requests" placeholder="Special Requests (Optional)"></textarea>
+                <label></label>
+            </div>
+
+            <button type="submit">Confirm Reservation</button>
+        </form>
+    </div>
+
+    <div class="overlay-container" id="overlayCon">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>Welcome!</h1>
+                <p>We're excited to serve you. Please fill in your details to complete your reservation.</p>
+                <p>For any special requirements, let us know in the requests field.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
