@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Table</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 
         * {
             padding: 0;
@@ -162,6 +162,14 @@
     </style>
 </head>
 <body>
+<form action="<%= request.getContextPath() %>/ReservationServlet" method="post">
+
+    <input type="hidden" name="selectedTime" id="selectedTimeInput">
+    <input type="hidden" name="selectedGuests" id="selectedGuestsInput">
+    <input type="hidden" name="selectedDate" id="selectedDateInput">
+
+
+
 <div class="booking-container">
     <!-- Left Side: Restaurant Details -->
     <div class="restaurant-info">
@@ -200,9 +208,10 @@
             <button type="button" class="time-slot">9:00 PM</button>
         </div>
 
-        <button class="proceed-btn" onclick="location.href='reservationForm.jsp'">Proceed</button>
+        <button type="submit" class="proceed-btn">Proceed</button>
     </div>
 </div>
+</form>
 
 <script>
     // Add active class to selected time slot
@@ -213,5 +222,36 @@
         });
     });
 </script>
+<script>
+    const guestSelect = document.getElementById('guests');
+    const dateInput = document.getElementById('date');
+    const timeButtons = document.querySelectorAll('.time-slot');
+
+    const timeInput = document.getElementById('selectedTimeInput');
+    const guestsInput = document.getElementById('selectedGuestsInput');
+    const dateHiddenInput = document.getElementById('selectedDateInput');
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const selectedTime = document.querySelector('.time-slot.active');
+        if (!selectedTime) {
+            alert("Please select a time slot!");
+            event.preventDefault();
+            return;
+        }
+
+        timeInput.value = selectedTime.textContent.trim();
+        guestsInput.value = guestSelect.value;
+        dateHiddenInput.value = dateInput.value;
+    });
+
+    // Time slot active class handling
+    timeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            timeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
 </body>
 </html>
