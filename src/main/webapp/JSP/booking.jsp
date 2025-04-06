@@ -1,4 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.restaurant.model.Hotel" %>
+<%
+    Hotel hotel = (Hotel) request.getAttribute("selectedHotel");
+%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Table</title>
     <style>
-
-
         * {
             padding: 0;
             margin: 0;
@@ -40,7 +43,6 @@
             overflow: hidden;
         }
 
-        /* Left Side: Restaurant Details */
         .restaurant-info {
             width: 50%;
             padding: 40px;
@@ -59,11 +61,20 @@
 
         .restaurant-info p {
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             line-height: 1.6;
         }
 
-        /* Right Side: Booking Form */
+        .restaurant-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .restaurant-info li {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
         .booking-form {
             width: 50%;
             padding: 40px;
@@ -116,7 +127,6 @@
             width: 100%;
         }
 
-        /* Time Slot Buttons */
         .time-slots {
             display: flex;
             gap: 10px;
@@ -139,7 +149,6 @@
             background: var(--accent-hover);
         }
 
-        /* Proceed Button */
         .proceed-btn {
             width: 100%;
             background: var(--accent-color);
@@ -163,70 +172,68 @@
 </head>
 <body>
 <form action="<%= request.getContextPath() %>/ReservationServlet" method="post">
-
     <input type="hidden" name="selectedTime" id="selectedTimeInput">
     <input type="hidden" name="selectedGuests" id="selectedGuestsInput">
     <input type="hidden" name="selectedDate" id="selectedDateInput">
 
+    <div class="booking-container">
+        <!-- Left Side: Dynamic Hotel Info -->
+        <div class="restaurant-info">
+            <h1><%= hotel != null ? hotel.getName() : "Hotel Name" %></h1>
+            <p><%= hotel != null ? hotel.getDescription()
+                    : "Hotel description not found." %></p>
+            <% if (hotel != null) { %>
+            <ul style="padding-left: 20px;">
+                <% for (String f : hotel.getFeatures()) { %>
+                <li style="margin-bottom: 5px;">✅ <%= f %></li>
+                <% } %>
+            </ul>
+            <% } %>
+        </div>
 
+        <!-- Right Side: Booking Form -->
+        <div class="booking-form">
+            <h2>Make a Reservation</h2>
 
-<div class="booking-container">
-    <!-- Left Side: Restaurant Details -->
-    <div class="restaurant-info">
-        <h1>FLOW - Hilton Colombo Residences</h1>
-        <p>Explore a diverse selection of flavors including Sri Lankan, Indian, Chinese, Japanese, and Western cuisine.</p>
-        <p>📍 Location: Colombo, Sri Lanka</p>
-        <p>💰 Price Range: $31 - $50</p>
-        <p>🍽️ Cuisine: Global, International</p>
+            <div class="form-group">
+                <label for="guests">Number of People</label>
+                <select id="guests">
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                    <option value="5">5 People</option>
+                    <option value="6">6 People</option>
+                    <option value="7">7 People</option>
+                    <option value="8">8 People</option>
+                    <option value="9">9 People</option>
+                    <option value="10">10 People</option>
+                </select>
+                <span class="underline"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date">
+                <span class="underline"></span>
+            </div>
+
+            <label>Select a time</label>
+            <div class="time-slots">
+                <button type="button" class="time-slot">8:30 PM</button>
+                <button type="button" class="time-slot">8:45 PM</button>
+                <button type="button" class="time-slot">9:00 PM</button>
+            </div>
+
+            <button type="submit" class="proceed-btn">Proceed</button>
+        </div>
     </div>
-
-    <!-- Right Side: Booking Form -->
-    <div class="booking-form">
-        <h2>Make a Reservation</h2>
-
-        <div class="form-group">
-            <label for="guests">Number of People</label>
-            <select id="guests">
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-                <option value="3">3 People</option>
-                <option value="4">4 People</option>
-            </select>
-            <span class="underline"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" id="date">
-            <span class="underline"></span>
-        </div>
-
-        <label>Select a time</label>
-        <div class="time-slots">
-            <button type="button" class="time-slot">8:30 PM</button>
-            <button type="button" class="time-slot">8:45 PM</button>
-            <button type="button" class="time-slot">9:00 PM</button>
-        </div>
-
-        <button type="submit" class="proceed-btn">Proceed</button>
-    </div>
-</div>
 </form>
 
-<script>
-    // Add active class to selected time slot
-    document.querySelectorAll('.time-slot').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.time-slot').forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-</script>
 <script>
     const guestSelect = document.getElementById('guests');
     const dateInput = document.getElementById('date');
     const timeButtons = document.querySelectorAll('.time-slot');
-
     const timeInput = document.getElementById('selectedTimeInput');
     const guestsInput = document.getElementById('selectedGuestsInput');
     const dateHiddenInput = document.getElementById('selectedDateInput');
@@ -244,7 +251,6 @@
         dateHiddenInput.value = dateInput.value;
     });
 
-    // Time slot active class handling
     timeButtons.forEach(button => {
         button.addEventListener('click', function() {
             timeButtons.forEach(btn => btn.classList.remove('active'));
@@ -252,6 +258,5 @@
         });
     });
 </script>
-
 </body>
 </html>

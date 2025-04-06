@@ -135,7 +135,7 @@
     <div class="container">
         <h1 class="display-3 fw-bold mb-4">Welcome to ReservEats</h1>
         <p class="lead mb-5">Your premier destination for effortless restaurant reservations and unforgettable dining experiences</p>
-        <a href="JSP/searchRestaurants.jsp" class="btn btn-primary-custom btn-lg">Reserve Your Table Now</a>
+        <a href="search-restaurants" class="btn btn-primary-custom btn-lg">Reserve Your Table Now</a>
     </div>
 </section>
 

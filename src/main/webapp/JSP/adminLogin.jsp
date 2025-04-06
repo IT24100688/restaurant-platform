@@ -163,15 +163,20 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="" method="post">
+        <form action="<%= request.getContextPath() %>/AdminServlet" method="post">
+
             <h1>Log in as Admin!</h1>
+            <% String error = request.getParameter("error");
+                if (error != null) { %>
+            <p class="error-msg"><%= error %></p>
+            <% } %>
             <div class="infield">
-                <input type="text" placeholder="Name" />
+                <input type="text" name="username" placeholder="Name" />
                 <label></label>
             </div>
 
             <div class="infield">
-                <input type="password" placeholder="Password" />
+                <input type="password" name="password" placeholder="Password" />
                 <label></label>
             </div>
             <button>LOG IN</button>

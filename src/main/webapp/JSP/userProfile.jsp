@@ -1,24 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, java.io.*" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>User Profile</title>
+  <title>User Dashboard</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      margin: 0;
       background: #f6f5f7;
-      padding: 40px;
+      display: flex;
+      height: 100vh;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
+    .sidebar {
+      width: 220px;
+      background: #141E30;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 15px;
     }
 
-    h2 {
-      color: #141E30;
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .nav-link {
+      background: none;
+      color: white;
+      border: none;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: #1823dd;
+      border-radius: 5px;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
     }
 
     .section {
@@ -26,31 +53,33 @@
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 0 20px #ccc;
-      margin-bottom: 40px;
+      display: none;
     }
 
-    label {
+    .section.active {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
+    }
+
+    label, input {
+      display: block;
+      margin-bottom: 10px;
     }
 
     input {
+      padding: 8px;
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border-radius: 5px;
+      border-radius: 4px;
       border: 1px solid #ccc;
     }
 
     .btn {
+      margin-top: 10px;
+      padding: 10px 15px;
       background-color: #141E30;
       color: white;
-      padding: 10px 20px;
       border: none;
+      border-radius: 4px;
       font-weight: bold;
-      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -91,10 +120,17 @@
 </head>
 <body>
 
-<div class="container">
+<div class="sidebar">
+  <h2>My Profile</h2>
+  <button class="nav-link" onclick="showSection('account')">👤 Account</button>
+  <button class="nav-link" onclick="showSection('reservations')">📅 Reservations</button>
+</div>
 
-  <div class="section">
-    <h2>My Account</h2>
+<div class="content">
+
+  <!-- Account Section -->
+  <div id="account" class="section active">
+    <h2>Account Details</h2>
     <form action="<%= request.getContextPath() %>/UpdateProfileServlet" method="post">
       <label>Full Name</label>
       <input type="text" name="name" value="<%= session.getAttribute("name") %>" required>
@@ -109,9 +145,9 @@
     </form>
   </div>
 
-  <div class="section">
-    <h2>My Reservations</h2>
-
+  <!-- Reservations Section -->
+  <div id="reservations" class="section">
+    <h2>Ongoing Reservations</h2>
     <table>
       <tr>
         <th>Reservation ID</th>
@@ -121,6 +157,7 @@
         <th>Action</th>
       </tr>
 
+      <!-- Placeholder row -->
       <tr>
         <td>RES123456789</td>
         <td>2025-04-02</td>
@@ -133,10 +170,19 @@
           </form>
         </td>
       </tr>
-
     </table>
   </div>
+
 </div>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(div => {
+      div.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
+</script>
 
 </body>
 </html>

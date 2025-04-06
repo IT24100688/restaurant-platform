@@ -1,3 +1,6 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.restaurant.model.Hotel" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Reservation</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
         * {
             padding: 0;
             margin: 0;
@@ -118,9 +119,12 @@
         .hotel-features {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
             font-size: 13px;
             color: #888;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .feature {
@@ -138,47 +142,39 @@
 <body>
 <h1>Select Your Perfect Hotel</h1>
 <div class="container">
+    <%
+        List<Hotel> hotels = (List<Hotel>) request.getAttribute("hotels");
+        if (hotels != null && !hotels.isEmpty()) {
+            for (Hotel hotel : hotels) {
+    %>
     <div class="hotel-card">
-        <img src="hotel1.jpg" alt="Luxury Inn">
+        <img src="<%= hotel.getImageUrl() %>" alt="<%= hotel.getName() %>">
         <div class="content">
-            <h3>Luxury Inn</h3>
-            <p>Experience unparalleled 5-star luxury with breathtaking sea views and world-class amenities in our premium suites.</p>
+            <h3><%= hotel.getName() %></h3>
+            <p><%= hotel.getDescription() %></p>
             <div class="hotel-features">
-                <div class="feature"><i class="fas fa-wifi"></i> Free WiFi</div>
-                <div class="feature"><i class="fas fa-swimming-pool"></i> Pool</div>
-                <div class="feature"><i class="fas fa-utensils"></i> Restaurant</div>
+                <%
+                    for (String feature : hotel.getFeatures()) {
+                %>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i> <%= feature %>
+                </div>
+                <% } %>
             </div>
-            <a href="booking.jsp" class="book-btn">Book Now</a>
-        </div>
-    </div>
 
-    <div class="hotel-card">
-        <img src="hotel2.jpg" alt="Urban Retreat">
-        <div class="content">
-            <h3>Urban Retreat</h3>
-            <p>Modern comfort meets convenience in our downtown location, perfect for both business travelers and urban explorers.</p>
-            <div class="hotel-features">
-                <div class="feature"><i class="fas fa-wifi"></i> Free WiFi</div>
-                <div class="feature"><i class="fas fa-dumbbell"></i> Gym</div>
-                <div class="feature"><i class="fas fa-coffee"></i> Breakfast</div>
-            </div>
-            <a href="reservationForm.jsp" class="book-btn">Book Now</a>
-        </div>
-    </div>
+            <a href="booking?hotelName=<%= hotel.getName() %>" class="book-btn">Book Now</a>
 
-    <div class="hotel-card">
-        <img src="hotel3.jpg" alt="Mountain Lodge">
-        <div class="content">
-            <h3>Mountain Lodge</h3>
-            <p>Escape to nature with our cozy cabins offering stunning mountain views and peaceful surroundings.</p>
-            <div class="hotel-features">
-                <div class="feature"><i class="fas fa-fire"></i> Fireplace</div>
-                <div class="feature"><i class="fas fa-hiking"></i> Hiking</div>
-                <div class="feature"><i class="fas fa-paw"></i> Pet-friendly</div>
-            </div>
-            <a href="reservationForm.jsp" class="book-btn">Book Now</a>
+
         </div>
     </div>
+    <%
+        }
+    } else {
+    %>
+    <p>No hotels found.</p>
+    <%
+        }
+    %>
 </div>
 </body>
 </html>
