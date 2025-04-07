@@ -1,0 +1,7 @@
+Tropical Paradise|Beachfront bungalows with cocktails|Colombo|https://www.example.com/tropicalparadise.jpg|Beach,Bar,Spa
+City View Suites|Luxury in the heart of the city|Colombo|https://www.example.com/cityview.jpg|Smart TV,WiFi,Concierge
+Mountain Lodge|Cozy cabins with stunning mountain views|Colombo|https://www.example.com/mountainlodge.jpg|Fireplace,Hiking,Pet-friendly
+Urban Retreat|Modern comfort meets convenience in downtown|Colombo|https://www.example.com/urbanretreat.jpg|Free WiFi,Gym,Breakfast
+The Royal Castle|Historic palace with vintage charm|Colombo|https://www.example.com/royalcastle.jpg|Castle View,Lounge,Hot Tub
+Luxury Inn|Experience unparalleled 5-star luxury|Colombo|https://www.example.com/luxuryinn.jpg|Free WiFi,Pool,Restaurant
+Ape Amma|A modern Sri Lankan home-cooked dining experience|Colombo|https://www.example.com/apeamma.jpg|Cultural,Traditional,Vegan Options

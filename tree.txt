@@ -1,0 +1,141 @@
+Folder PATH listing
+Volume serial number is 3A5B-B9AA
+C:.
+|   .gitignore
+|   pom.xml
+|   README.md
+|   rest-plat.iml
+|   tree.txt
+|   
++---.idea
+|   |   .gitignore
+|   |   compiler.xml
+|   |   encodings.xml
+|   |   jarRepositories.xml
+|   |   misc.xml
+|   |   modules.xml
+|   |   uiDesigner.xml
+|   |   vcs.xml
+|   |   webContexts.xml
+|   |   workspace.xml
+|   |   
+|   \---data
+|           AdminPasswords.txt
+|           reservations.txt
+|           users.txt
+|           
++---.smarttomcat
+|   \---rest-plat
+|       \---conf
+|               catalina.policy
+|               catalina.properties
+|               context.xml
+|               jaspic-providers.xml
+|               jaspic-providers.xsd
+|               logging.properties
+|               server.xml
+|               tomcat-users.xml
+|               tomcat-users.xsd
+|               web.xml
+|               
++---src
+|   +---com
+|   |   \---restaurant
+|   |       +---controller
+|   |       |       AdminServlet.java
+|   |       |       AuthFilter.java
+|   |       |       LoginServlet.java
+|   |       |       ReservationServlet.java
+|   |       |       SignUpServlet.java
+|   |       |       
+|   |       +---model
+|   |       |       Admin.java
+|   |       |       Reservation.java
+|   |       |       User.java
+|   |       |       
+|   |       +---service
+|   |       |       AdminService.java
+|   |       |       MergeSort.java
+|   |       |       ReservationService.java
+|   |       |       
+|   |       \---utils
+|   |               Validation.java
+|   |               
+|   \---main
+|       +---resources
+|       |       ReservationSevelet.java
+|       |       
+|       \---webapp
+|           +---css
+|           |       styles.css
+|           |       Styles.js
+|           |       
+|           +---JSP
+|           |       adminDashboard.jsp
+|           |       adminLogin.jsp
+|           |       booking.jsp
+|           |       landingPage.jsp
+|           |       Logout.jsp
+|           |       manageUsers.jsp
+|           |       PaymentPortal.jsp
+|           |       processHandle.jsp
+|           |       reservationForm.jsp
+|           |       searchRestaurants.jsp
+|           |       Signup.jsp
+|           |       viewAllReservations.jsp
+|           |       viewReservations.jsp
+|           |       
+|           \---WEB-INF
+|                   web.xml
+|                   
+\---target
+    +---classes
+    |   |   ReservationSevelet.java
+    |   |   
+    |   +---com
+    |   |   \---restaurant
+    |   |       +---controller
+    |   |       |       AuthFilter.class
+    |   |       |       LoginServlet.class
+    |   |       |       ReservationServlet.class
+    |   |       |       SignUpServlet.class
+    |   |       |       
+    |   |       +---model
+    |   |       |       Admin.class
+    |   |       |       Reservation.class
+    |   |       |       User.class
+    |   |       |       
+    |   |       +---service
+    |   |       |       AdminService.class
+    |   |       |       MergeSort.class
+    |   |       |       ReservationService.class
+    |   |       |       
+    |   |       \---utils
+    |   |               Validation.class
+    |   |               
+    |   \---main
+    |       \---webapp
+    |           +---css
+    |           |       styles.css
+    |           |       Styles.js
+    |           |       
+    |           +---JSP
+    |           |       adminDashboard.jsp
+    |           |       adminLogin.jsp
+    |           |       booking.jsp
+    |           |       landingPage.jsp
+    |           |       Logout.jsp
+    |           |       manageUsers.jsp
+    |           |       PaymentPortal.jsp
+    |           |       processHandle.jsp
+    |           |       reservationForm.jsp
+    |           |       searchRestaurants.jsp
+    |           |       Signup.jsp
+    |           |       viewAllReservations.jsp
+    |           |       viewReservations.jsp
+    |           |       
+    |           \---WEB-INF
+    |                   web.xml
+    |                   
+    \---generated-sources
+        \---annotations
