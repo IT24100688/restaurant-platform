@@ -163,7 +163,7 @@
             </div>
 
             <a href="booking?hotelName=<%= hotel.getName() %>" class="book-btn">Book Now</a>
-            
+
 
 
         </div>

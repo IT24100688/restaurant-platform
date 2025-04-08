@@ -10,7 +10,7 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="SignUpServlet" method="post">
+        <form action="user-auth" method="post">
             <h1>Create Account</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -26,6 +26,12 @@
                 <input type="email" placeholder="Email" name="email"/>
                 <label></label>
             </div>
+            <div class="infield phone-field">
+
+                <input type="tel" placeholder="Phone Number" name="number" class="phone-input" />
+                <label></label>
+            </div>
+
             <div class="infield">
                 <input type="password" placeholder="Password" />
                 <label></label>
@@ -34,7 +40,7 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="LoginServlet" method="post" >
+        <form action="user-auth" method="post" >
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -57,14 +63,14 @@
     <div class="overlay-container" id="overlayCon">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button>Sign In</button>
-            </div>
-            <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
                 <button>Sign Up</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button>Sign In</button>
             </div>
         </div>
         <button id="overlayBtn"></button>
@@ -93,7 +99,7 @@ box-sizing: border-box;
 
 body {
 height: 100vh;
-background: #f6f5f7;
+background: url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80 ");
 display: grid;
 place-content: center;
 font-family: 'Poppins', sans-serif;

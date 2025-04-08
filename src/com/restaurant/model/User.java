@@ -1,18 +1,43 @@
 package com.restaurant.model;
 
 public class User {
-    private String username;
+    private String name;
+    private String email;
+    private String phone;
     private String password;
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
         this.password = password;
     }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getName() {
+        return name;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String toFileFormat() {
+        return name + "|" + email + "|" + phone + "|" + password;
+    }
+
+    public static User fromLine(String line) {
+        String[] parts = line.split("\\|");
+        if (parts.length == 4) {
+            return new User(parts[0], parts[1], parts[2], parts[3]);
+        }
+        return null;
+    }
 }
-
