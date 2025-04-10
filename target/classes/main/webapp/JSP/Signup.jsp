@@ -10,7 +10,7 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="user-auth" method="post">
+        <form action="SignUpServlet" method="post">
             <h1>Create Account</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -19,28 +19,26 @@
             </div>
             <span>or use your email for registration</span>
             <div class="infield">
-                <input type="text" placeholder="Name" />
+                <input type="text" placeholder="Name" name="name" required />
                 <label></label>
             </div>
             <div class="infield">
-                <input type="email" placeholder="Email" name="email"/>
+                <input type="email" placeholder="Email" name="email" required />
                 <label></label>
             </div>
             <div class="infield phone-field">
-
-                <input type="tel" placeholder="Phone Number" name="number" class="phone-input" />
+                <input type="tel" placeholder="Phone Number" name="number" required />
                 <label></label>
             </div>
-
             <div class="infield">
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" name="password" required />
                 <label></label>
             </div>
-            <button>Sign Up</button>
+            <button type="submit">Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="user-auth" method="post" >
+        <form action="LoginServlet" method="post">
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -49,15 +47,15 @@
             </div>
             <span>or use your account</span>
             <div class="infield">
-                <input type="email" placeholder="Email" name="email"/>
+                <input type="email" placeholder="Email" name="email" required />
                 <label></label>
             </div>
             <div class="infield">
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" name="password" required />
                 <label></label>
             </div>
             <a href="#" class="forgot">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
     </div>
     <div class="overlay-container" id="overlayCon">
@@ -76,7 +74,6 @@
         <button id="overlayBtn"></button>
     </div>
 </div>
-
 <script>
     document.getElementById('overlayBtn').addEventListener('click', function() {
         document.getElementById('container').classList.toggle('right-panel-active');
