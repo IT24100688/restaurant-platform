@@ -119,9 +119,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="JSP/Signup.jsp"><i class="fas fa-user-plus me-2"></i>Sign Up</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="JSP/searchRestaurants.jsp"><i class="fas fa-utensils me-2"></i>Reserve a Table</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="JSP/adminLogin.jsp"><i class="fas fa-lock me-2"></i>Admin</a>
                 </li>

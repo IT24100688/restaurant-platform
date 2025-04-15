@@ -99,12 +99,10 @@
         <h3><i class="fas fa-utensils"></i> ReservEats</h3>
     </div>
     <ul class="sidebar-menu">
-        <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+
         <li><a href="#restaurants"><i class="fas fa-store"></i> Manage Restaurants</a></li>
         <li><a href="#tables"><i class="fas fa-chair"></i> Table Availability</a></li>
-        <li><a href="#reservations"><i class="fas fa-calendar-check"></i> Reservations</a></li>
-        <li><a href="#reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
-        <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> Reservations</a></li>
         <li><a href="JSP/Logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 </div>
@@ -115,7 +113,7 @@
     <table class="table table-striped">
         <thead class="table-dark">
         <tr>
-            <th>#</th>
+            <th>No</th>
             <th>Hotel Name</th>
             <th>Description</th>
             <th>Features</th>

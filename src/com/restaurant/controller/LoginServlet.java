@@ -20,13 +20,14 @@ public class LoginServlet extends HttpServlet {
 
         boolean isValid = false;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
+        String path = getServletContext().getRealPath(USER_FILE);
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length >= 3) {
+                if (parts.length >= 4) {
                     String storedEmail = parts[1];
-                    String storedPassword = parts[2];
+                    String storedPassword = parts[3];
 
                     if (storedEmail.equals(email) && storedPassword.equals(password)) {
                         isValid = true;
@@ -39,9 +40,9 @@ public class LoginServlet extends HttpServlet {
         if (isValid) {
             HttpSession session = request.getSession();
             session.setAttribute("user", email);
-            response.sendRedirect("jsp/booking.jsp"); // Redirect to booking page
+            response.sendRedirect("JSP/userProfile.jsp"); // Redirect to booking page
         } else {
-            response.sendRedirect("jsp/Signup.jsp?error=Invalid+credentials");
+            response.sendRedirect("JSP/Signup.jsp?error=Invalid+credentials");
         }
     }
 }

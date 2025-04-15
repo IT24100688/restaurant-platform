@@ -1,48 +1,63 @@
-package com.restaurant.controller; // Use your actual package name
+package com.restaurant.controller;
+
+import com.restaurant.model.Reservation;
+import com.restaurant.service.ReservationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.*;
+import java.io.IOException;
 
-@WebServlet("/ReservationServlet") // This matches the form's action
+@WebServlet("/ReservationServlet")
 public class ReservationServlet extends HttpServlet {
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get booking form data
-        String guests = request.getParameter("selectedGuests");
+        String reservationId = "RES" + System.currentTimeMillis();
+
+        // ✅ Matching your form input names
         String date = request.getParameter("selectedDate");
         String time = request.getParameter("selectedTime");
+        String guestParam = request.getParameter("selectedGuests");
+        int guests = 1;
 
-        // Generate a reservation ID using timestamp
-        String reservationID = "RES" + System.currentTimeMillis();
-
-        // Get username from session (optional if you’re using login)
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        if (username == null) {
-            username = "guest";
+        try {
+            if (guestParam != null && !guestParam.equals("null") && !guestParam.isEmpty()) {
+                guests = Integer.parseInt(guestParam);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // fallback to default 1
         }
 
-        // Save reservation to file
-        String filePath = "C:\\Users\\Ranuda Perera\\Desktop\\rest-plat\\.idea\\data\\reservations.txt"; // change to your actual path
-        File file = new File(filePath);
-        file.getParentFile().mkdirs(); // create directory if it doesn't exist
+        // ✅ Get hotel name from session
+        HttpSession session = request.getSession();
+        String hotelName = request.getParameter("hotelName");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true)); // append mode
-        writer.write(reservationID + "," + username + "," + date + "," + time + "," + guests);
-        writer.newLine();
-        writer.close();
+        Reservation reservation = new Reservation(
+                reservationId, hotelName, date, time, guests, name, email, phone
+        );
 
-        session.setAttribute("reservationID", reservationID);
-        session.setAttribute("guests", guests);
-        session.setAttribute("date", date);
-        session.setAttribute("time", time);
+        if (ReservationService.isAvailable(reservation, getServletContext())) {
+            ReservationService.saveReservation(reservation, getServletContext());
 
-        // Redirect to confirmation page
-        response.sendRedirect(request.getContextPath() + "/JSP/reservationForm.jsp");
+            // ✅ Store reservation info to session
+            session.setAttribute("reservationID", reservationId);
+            session.setAttribute("hotelName", hotelName);
+            session.setAttribute("date", date);
+            session.setAttribute("time", time);
+            session.setAttribute("guests", String.valueOf(guests));
+            session.setAttribute("name", name);
+            session.setAttribute("email", email);
+            session.setAttribute("phone", phone);
 
+            // ✅ Redirect to confirmation page
+            response.sendRedirect("JSP/ReservationConfirm.jsp");
+        } else {
+            response.sendRedirect("jsp/fullyBooked.jsp");
+        }
     }
 }

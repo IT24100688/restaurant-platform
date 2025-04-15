@@ -1,24 +1,63 @@
 package com.restaurant.model;
 
 public class Reservation {
+    private String reservationId;
+    private String HotelName;
+    private String date;
+    private String time;
+    private int guests;
+    private String name;
+    private String email;
+    private String phone;
 
-        private String name;
-        private String contact;
-        private String reservationTime;
-
-        public Reservation(String name, String contact, String reservationTime) {
-            this.name = name;
-            this.contact = contact;
-            this.reservationTime = reservationTime;
-        }
-
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
-
-        public String getContact() { return contact; }
-        public void setContact(String contact) { this.contact = contact; }
-
-        public String getReservationTime() { return reservationTime; }
-        public void setReservationTime(String reservationTime) { this.reservationTime = reservationTime; }
+    public Reservation(String reservationId, String HotelName, String date, String time,
+                       int guests, String name, String email, String phone) {
+        this.reservationId = reservationId;
+        this.HotelName = HotelName;
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
+    public Reservation(String restaurant, String date, String time, int guests, String name, String email) {
+    }
+
+    public String getReservationId() {
+        return reservationId;
+    }
+
+    public String getHotelName() {
+        return HotelName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public int getGuests() {
+        return guests;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String toFileString() {
+        return reservationId + "," + HotelName + "," + date + "," + time + "," + guests + "," + name + "," + email + "," + phone;
+    }
+}

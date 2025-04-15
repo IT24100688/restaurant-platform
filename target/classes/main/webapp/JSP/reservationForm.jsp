@@ -59,8 +59,14 @@
 <div class="container">
     <h1>Enter Customer Details</h1>
 
-    <form action="<%= request.getContextPath() %>/PaymentServlet" method="post">
-        <div class="infield">
+    <form action="<%= request.getContextPath() %>/ReservationServlet" method="post">
+        <input type="hidden" name="selectedTime" value="<%= request.getParameter("selectedTime") %>">
+        <input type="hidden" name="selectedDate" value="<%= request.getParameter("selectedDate") %>">
+        <input type="hidden" name="selectedGuests" value="<%= request.getParameter("selectedGuests") %>">
+        <input type="hidden" name="hotelName" value="<%= request.getParameter("hotelName") %>">
+
+
+            <div class="infield">
             <input type="text" name="name" placeholder="Full Name" required>
         </div>
         <div class="infield">

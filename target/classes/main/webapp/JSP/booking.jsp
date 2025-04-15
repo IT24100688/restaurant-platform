@@ -171,7 +171,8 @@
     </style>
 </head>
 <body>
-<form action="<%= request.getContextPath() %>/ReservationServlet" method="post">
+<form action=JSP/reservationForm.jsp METHOD="get">
+    <input type="hidden" name="hotelName" value="<%= hotel != null ? hotel.getName() : "" %>">
     <input type="hidden" name="selectedTime" id="selectedTimeInput">
     <input type="hidden" name="selectedGuests" id="selectedGuestsInput">
     <input type="hidden" name="selectedDate" id="selectedDateInput">

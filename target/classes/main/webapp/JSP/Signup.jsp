@@ -1,17 +1,19 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="SignUpServlet" method="post">
-            <h1>Create Account</h1>
+        <form action="<%= request.getContextPath() %>/SignUpServlet" method="post">
+
+        <h1>Create Account</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
@@ -38,7 +40,7 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="LoginServlet" method="post">
+        <form action="<%=request.getContextPath()%>/LoginServlet" method="post">
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -74,6 +76,9 @@
         <button id="overlayBtn"></button>
     </div>
 </div>
+</body>
+</html>
+
 <script>
     document.getElementById('overlayBtn').addEventListener('click', function() {
         document.getElementById('container').classList.toggle('right-panel-active');
