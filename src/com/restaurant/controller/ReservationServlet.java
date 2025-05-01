@@ -41,10 +41,9 @@ public class ReservationServlet extends HttpServlet {
                 reservationId, hotelName, date, time, guests, name, email, phone
         );
 
-        if (ReservationService.isAvailable(reservation, getServletContext())) {
+        if (ReservationService.isAvailable(hotelName, date, time, getServletContext())) {
             ReservationService.saveReservation(reservation, getServletContext());
 
-            // ✅ Store reservation info to session
             session.setAttribute("reservationID", reservationId);
             session.setAttribute("hotelName", hotelName);
             session.setAttribute("date", date);
@@ -54,10 +53,10 @@ public class ReservationServlet extends HttpServlet {
             session.setAttribute("email", email);
             session.setAttribute("phone", phone);
 
-            // ✅ Redirect to confirmation page
             response.sendRedirect("JSP/ReservationConfirm.jsp");
         } else {
             response.sendRedirect("jsp/fullyBooked.jsp");
         }
+
     }
 }
