@@ -26,6 +26,7 @@ public class EditReservationServlet extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String tableType = request.getParameter("tableType");
 
         String path = getServletContext().getRealPath(FILE_PATH);
         Queue<Reservation> updatedQueue = new LinkedList<>();
@@ -36,7 +37,7 @@ public class EditReservationServlet extends HttpServlet {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length >= 8) {
+                if (parts.length >= 9) {
                     if (parts[0].equals(reservationId)) {
                         // Replace with updated reservation
                         Reservation updated = new Reservation(
@@ -47,14 +48,15 @@ public class EditReservationServlet extends HttpServlet {
                                 guests,
                                 name,
                                 email,
-                                phone
+                                phone,
+                                tableType
                         );
                         updatedQueue.add(updated);
                     } else {
                         // Keep existing reservation
                         updatedQueue.add(new Reservation(
                                 parts[0], parts[1], parts[2], parts[3],
-                                Integer.parseInt(parts[4]), parts[5], parts[6], parts[7]
+                                Integer.parseInt(parts[4]), parts[5], parts[6], parts[7], parts[8]
                         ));
                     }
                 }

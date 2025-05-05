@@ -8,6 +8,7 @@
   String date = (String) session.getAttribute("date");
   String time = (String) session.getAttribute("time");
   String guests = (String) session.getAttribute("guests");
+  String tableType = (String) session.getAttribute("tableType");
 %>
 <!DOCTYPE html>
 <html>
@@ -44,9 +45,11 @@
   <p><strong>Date:</strong> <%= date %></p>
   <p><strong>Time:</strong> <%= time %></p>
   <p><strong>Guests:</strong> <%= guests %></p>
+  <p><strong>Table type</strong> <%= tableType%></p>
   <p><strong>Name:</strong> <%= name %></p>
   <p><strong>Email:</strong> <%= email %></p>
   <p><strong>Phone:</strong> <%= phone %></p>
+
 </div>
 </body>
 </html>

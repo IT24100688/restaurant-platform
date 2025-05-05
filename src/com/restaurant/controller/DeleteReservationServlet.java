@@ -30,7 +30,7 @@ public class DeleteReservationServlet extends HttpServlet {
                 if (parts.length >= 8 && !parts[0].equals(reservationId)) {
                     updatedQueue.add(new Reservation(
                             parts[0], parts[1], parts[2], parts[3],
-                            Integer.parseInt(parts[4]), parts[5], parts[6], parts[7]
+                            Integer.parseInt(parts[4]), parts[5], parts[6], parts[7], parts[8]
                     ));
                 }
             }

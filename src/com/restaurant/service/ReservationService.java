@@ -41,8 +41,9 @@ public class ReservationService {
                     String name = parts[5];
                     String email = parts[6];
                     String phone = parts[7];
+                    String tableType = parts[8];
 
-                    Reservation r = new Reservation(id, hotelName, date, time, guests, name, email, phone);
+                    Reservation r = new Reservation(id, hotelName, date, time, guests, name, email, phone,tableType);
                     queue.offer(r);
                 }
             }

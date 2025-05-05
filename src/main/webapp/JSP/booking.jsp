@@ -171,11 +171,12 @@
     </style>
 </head>
 <body>
-<form action=JSP/reservationForm.jsp METHOD="get">
+<form action=JSP/table.jsp METHOD="get">
     <input type="hidden" name="hotelName" value="<%= hotel != null ? hotel.getName() : "" %>">
     <input type="hidden" name="selectedTime" id="selectedTimeInput">
     <input type="hidden" name="selectedGuests" id="selectedGuestsInput">
     <input type="hidden" name="selectedDate" id="selectedDateInput">
+
 
     <div class="booking-container">
         <!-- Left Side: Dynamic Hotel Info -->

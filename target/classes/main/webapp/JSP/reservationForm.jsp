@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String tableType = request.getParameter("tableType");
+    session.setAttribute("tableType", tableType); // Store in session
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,9 +69,10 @@
         <input type="hidden" name="selectedDate" value="<%= request.getParameter("selectedDate") %>">
         <input type="hidden" name="selectedGuests" value="<%= request.getParameter("selectedGuests") %>">
         <input type="hidden" name="hotelName" value="<%= request.getParameter("hotelName") %>">
+        <input type="hidden" name="tableType" value="<%= tableType %>">
 
 
-            <div class="infield">
+        <div class="infield">
             <input type="text" name="name" placeholder="Full Name" required>
         </div>
         <div class="infield">
@@ -78,7 +84,7 @@
         <div class="infield">
             <textarea name="requests" placeholder="Special Requests (Optional)"></textarea>
         </div>
-        <button type="submit">Proceed to Payment</button>
+        <button type="submit" class="btn btn-primary">Proceed to Table Selection</button>
     </form>
 </div>
 </body>

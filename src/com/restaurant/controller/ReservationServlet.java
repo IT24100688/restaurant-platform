@@ -36,11 +36,11 @@ public class ReservationServlet extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String tableType = request.getParameter("tableType");
 
         Reservation reservation = new Reservation(
-                reservationId, hotelName, date, time, guests, name, email, phone
+                reservationId, hotelName, date, time, guests, name, email, phone, tableType
         );
-
         if (ReservationService.isAvailable(hotelName, date, time, getServletContext())) {
             ReservationService.saveReservation(reservation, getServletContext());
 
@@ -52,6 +52,7 @@ public class ReservationServlet extends HttpServlet {
             session.setAttribute("name", name);
             session.setAttribute("email", email);
             session.setAttribute("phone", phone);
+            session.setAttribute("tableType", tableType);
 
             response.sendRedirect("JSP/ReservationConfirm.jsp");
         } else {
