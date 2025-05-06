@@ -7,6 +7,8 @@
     <title>Admin Dashboard | ReservEats</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         :root {
             --primary-dark: #141E30;
@@ -100,10 +102,13 @@
     </div>
     <ul class="sidebar-menu">
 
-        <li><a href="#restaurants"><i class="fas fa-store"></i> Manage Restaurants</a></li>
-        <li><a href="#tables"><i class="fas fa-chair"></i> Table Availability</a></li>
-        <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> Reservations</a></li>
-        <li><a href="JSP/Logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="#admin"><i class="fas fa-user-shield"></i> Super admin</a></li>
+            <li><a href="#restaurants"><i class="fas fa-store"></i> Manage Restaurants</a></li>
+            <li><a href="#tables"><i class="fas fa-chair"></i> Table Availability</a></li>
+            <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> Reservations</a></li>
+            <li><a href="#feedback"><i class="fas fa-comment-dots"></i> Feedbacks</a></li>
+            <li><a href="JSP/Logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+
     </ul>
 </div>
 

@@ -32,7 +32,7 @@ public class ReservationService {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length >= 8) {
+                if (parts.length >= 9) {
                     String id = parts[0];
                     String hotelName = parts[1];
                     String date = parts[2];

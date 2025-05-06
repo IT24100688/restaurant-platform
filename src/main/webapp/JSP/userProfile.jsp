@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*, com.restaurant.model.Reservation, com.restaurant.model.User, com.restaurant.service.ReservationService" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,6 +127,20 @@
   <button class="nav-link" onclick="showSection('reservations')">📅 Reservations</button>
 </div>
 
+<%
+  User user = (User) session.getAttribute("loggedInUser");
+  List<Reservation> userReservations = new ArrayList<>();
+
+  if (user != null) {
+    Queue<Reservation> allReservations = ReservationService.getAllReservations(application);
+    for (Reservation r : allReservations) {
+      if (r.getEmail().equalsIgnoreCase(user.getEmail())) {
+        userReservations.add(r);
+      }
+    }
+  }
+%>
+
 <div class="content">
 
   <!-- Account Section -->
@@ -133,13 +148,13 @@
     <h2>Account Details</h2>
     <form action="<%= request.getContextPath() %>/UpdateProfileServlet" method="post">
       <label>Full Name</label>
-      <input type="text" name="name" value="<%= session.getAttribute("name") %>" required>
+      <input type="text" name="name" value="<%= user != null ? user.getName() : "" %>" required>
 
       <label>Email</label>
-      <input type="email" name="email" value="<%= session.getAttribute("email") %>" required>
+      <input type="email" name="email" value="<%= user != null ? user.getEmail() : "" %>" required>
 
       <label>Phone</label>
-      <input type="text" name="phone" value="<%= session.getAttribute("phone") %>" required>
+      <input type="text" name="phone" value="<%= user != null ? user.getPhone() : "" %>" required>
 
       <button type="submit" class="btn">Update Info</button>
     </form>
@@ -148,29 +163,43 @@
   <!-- Reservations Section -->
   <div id="reservations" class="section">
     <h2>Ongoing Reservations</h2>
+
+    <% if (!userReservations.isEmpty()) { %>
     <table>
+      <thead>
       <tr>
         <th>Reservation ID</th>
+        <th>Hotel</th>
         <th>Date</th>
         <th>Time</th>
         <th>Guests</th>
+        <th>Table Type</th>
         <th>Action</th>
       </tr>
-
-      <!-- Placeholder row -->
+      </thead>
+      <tbody>
+      <% for (Reservation r : userReservations) { %>
       <tr>
-        <td>RES123456789</td>
-        <td>2025-04-02</td>
-        <td>8:30 PM</td>
-        <td>2</td>
+        <td><%= r.getReservationId() %></td>
+        <td><%= r.getHotelName() %></td>
+        <td><%= r.getDate() %></td>
+        <td><%= r.getTime() %></td>
+        <td><%= r.getGuests() %></td>
+        <td><%= r.gettableType() != null ? r.gettableType() : "Not selected" %></td>
         <td>
-          <form action="<%= request.getContextPath() %>/CancelReservationServlet" method="post">
-            <input type="hidden" name="reservationID" value="RES123456789">
+          <form action="cancel-reservation" method="post" onsubmit="return confirm('Cancel this reservation?');">
+            <input type="hidden" name="reservationId" value="<%= r.getReservationId() %>">
             <button type="submit" class="cancel-btn">Cancel</button>
           </form>
         </td>
       </tr>
+      <% } %>
+      </tbody>
     </table>
+    <% } else { %>
+    <p>No reservations found.</p>
+    <% } %>
+
   </div>
 
 </div>

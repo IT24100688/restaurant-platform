@@ -1,7 +1,6 @@
 package com.restaurant.controller;
 
 
-
 import com.restaurant.model.Hotel;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

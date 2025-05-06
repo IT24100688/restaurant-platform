@@ -53,6 +53,7 @@ public class UserAuthServlet extends HttpServlet {
                 if (u.getEmail().equalsIgnoreCase(email) && u.getPassword().equals(password)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("loggedInUser", u);
+
                     response.sendRedirect("JSP/userDashboard.jsp");
                     return;
                 }
