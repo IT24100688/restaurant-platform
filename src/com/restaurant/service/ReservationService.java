@@ -32,7 +32,7 @@ public class ReservationService {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length >= 9) {
+                if (parts.length >= 8) {
                     String id = parts[0];
                     String hotelName = parts[1];
                     String date = parts[2];
@@ -41,7 +41,7 @@ public class ReservationService {
                     String name = parts[5];
                     String email = parts[6];
                     String phone = parts[7];
-                    String tableType = parts[8];
+                    String tableType = (parts.length >= 9) ? parts[8] : "General";
 
                     Reservation r = new Reservation(id, hotelName, date, time, guests, name, email, phone,tableType);
                     queue.offer(r);

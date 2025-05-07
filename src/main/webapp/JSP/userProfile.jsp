@@ -128,7 +128,12 @@
 </div>
 
 <%
-  User user = (User) session.getAttribute("loggedInUser");
+  User user = new User(
+          (String) session.getAttribute("name"),
+          (String) session.getAttribute("email"),
+          (String) session.getAttribute("phone"),
+          ""  // password not needed here
+  );
   List<Reservation> userReservations = new ArrayList<>();
 
   if (user != null) {

@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 
         if (isValid) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", email);
+            session.setAttribute("email", email);
             response.sendRedirect("JSP/userProfile.jsp"); // Redirect to booking page
         } else {
             response.sendRedirect("JSP/Signup.jsp?error=Invalid+credentials");

@@ -1,2 +1,6 @@
-
-RES1746513176495,City View Suites,2025-05-13,8:45 PM,5,Ranuda Perera,ranudaperera@gmail.com,0786903375,Family Table
+RES1683456789012,Luxury Inn,2025-05-15,7:30 PM,2,Ranuda Perera,ranuda@gmail.com,0789001234,VIP Table
+RES1683456790123,Urban Retreat,2025-05-16,6:00 PM,4,Enrui Fernando,enrui@gmail.com,0712233445,Family Table
+RES1683456791234,Mountain Lodge,2025-05-17,8:00 PM,3,Yuhansa Silva,yuhansa@gmail.com,0775566778,Outdoor Table
+RES1683456792345,City View Suites,2025-05-18,7:00 PM,1,Pabasara Jayasuriya,pabasara@gmail.com,0769988776,VIP Table
+RES1683456793456,Tropical Paradise,2025-05-19,9:00 PM,5,Pamod Dissanayake,pamod@gmail.com,0756677889,Family Table
+RES1683456794567,The Royal Castle,2025-05-20,6:30 PM,2,Mindi Karunaratne,mindi@gmail.com,0781234567,Outdoor Table

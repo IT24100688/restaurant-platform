@@ -102,7 +102,7 @@
     </div>
     <ul class="sidebar-menu">
 
-            <li><a href="#admin"><i class="fas fa-user-shield"></i> Super admin</a></li>
+            <li><a href="super-admin-dashboard"><i class="fas fa-user-shield"></i> Super admin</a></li>
             <li><a href="#restaurants"><i class="fas fa-store"></i> Manage Restaurants</a></li>
             <li><a href="#tables"><i class="fas fa-chair"></i> Table Availability</a></li>
             <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> Reservations</a></li>
