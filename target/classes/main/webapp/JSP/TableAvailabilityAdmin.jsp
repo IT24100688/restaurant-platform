@@ -1,97 +1,112 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page language="java" %>
+<%@ page import="com.restaurant.model.HotelTableManager" %>
 <%@ page import="java.util.*" %>
-<%
-  // Simulated backend Queues for demo purposes
-  Map<String, Queue<String>> outdoorTables = new HashMap<>();
-  Map<String, Queue<String>> vipTables = new HashMap<>();
-  Map<String, Queue<String>> familyTables = new HashMap<>();
 
-  List<String> hotels = Arrays.asList("Tropical Paradise", "City View Suites", "Mountain Lodge");
-  for (String hotel : hotels) {
-    outdoorTables.put(hotel, new LinkedList<>(Arrays.asList("T1", "T2")));
-    vipTables.put(hotel, new LinkedList<>(Arrays.asList("V1")));
-    familyTables.put(hotel, new LinkedList<>(Arrays.asList("F1", "F2", "F3")));
-  }
+<%
+  HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
+  List<String> hotels = Arrays.asList(
+          "Tropical Paradise", "City View Suites", "Mountain Lodge",
+          "Luxury Inn", "Urban Retreat", "The Royal Castle"
+  );
 %>
 
 <html>
 <head>
   <title>Table Availability - Admin Dashboard</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    .dashboard-container { padding: 20px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
-    button { padding: 6px 12px; }
-    .modal { display: none; position: fixed; top: 20%; left: 30%; background: #fff; padding: 20px; border: 1px solid #ccc; }
-    .modal input { width: 40px; margin: 0 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #141E30;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background: #141E30;
+      color: white;
+    }
+
+    select, input[type="number"] {
+      padding: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 6px 10px;
+      margin-left: 4px;
+      background-color: #243B55;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e5980;
+    }
+
+    .form-inline {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
 
 <div class="dashboard-container">
-  <h2>Table Availability</h2>
+  <h2>Table Availability (Admin Panel)</h2>
+
   <table>
     <tr>
       <th>Hotel Name</th>
       <th>Outdoor</th>
       <th>VIP</th>
       <th>Family</th>
-      <th>Action</th>
+      <th>Manage Tables</th>
     </tr>
-    <% for (String hotel : hotels) { %>
+
+    <% for (String hotel : hotels) {
+      Map<String, Integer> counts = manager != null ? manager.getTableCounts(hotel) : new HashMap<>();
+    %>
     <tr>
       <td><%= hotel %></td>
-      <td><%= outdoorTables.get(hotel).size() %></td>
-      <td><%= vipTables.get(hotel).size() %></td>
-      <td><%= familyTables.get(hotel).size() %></td>
+      <td><%= counts.getOrDefault("Outdoor", 0) %></td>
+      <td><%= counts.getOrDefault("VIP", 0) %></td>
+      <td><%= counts.getOrDefault("Family", 0) %></td>
       <td>
-        <button onclick="openModal('<%= hotel %>')">Manage Tables</button>
+        <form action="<%= request.getContextPath() %>/ManageTablesServlet" method="post" class="form-inline">
+          <input type="hidden" name="hotelName" value="<%= hotel %>">
+          <select name="tableType">
+            <option value="Outdoor">Outdoor</option>
+            <option value="VIP">VIP</option>
+            <option value="Family">Family</option>
+          </select>
+          <input type="number" name="count" value="1" min="1">
+          <button name="action" value="add">+</button>
+          <button name="action" value="remove">−</button>
+        </form>
       </td>
     </tr>
     <% } %>
   </table>
 </div>
-
-<!-- Modal -->
-<div id="tableModal" class="modal">
-  <h3 id="modalTitle">Manage Tables</h3>
-  <form method="post" action="TableManagerServlet">
-    <input type="hidden" id="hotelInput" name="hotelName">
-    <div>
-      Outdoor:
-      <label>Add <input name="addOutdoor" type="number" min="0"></label>
-      <label>Remove <input name="removeOutdoor" type="number" min="0"></label>
-    </div>
-    <div>
-      VIP:
-      <label>Add <input name="addVip" type="number" min="0"></label>
-      <label>Remove <input name="removeVip" type="number" min="0"></label>
-    </div>
-    <div>
-      Family:
-      <label>Add <input name="addFamily" type="number" min="0"></label>
-      <label>Remove <input name="removeFamily" type="number" min="0"></label>
-    </div>
-    <br>
-    <button type="submit">Update</button>
-    <button type="button" onclick="closeModal()">Cancel</button>
-  </form>
-</div>
-
-<script>
-  function openModal(hotelName) {
-    document.getElementById("hotelInput").value = hotelName;
-    document.getElementById("modalTitle").innerText = "Manage Tables for " + hotelName;
-    document.getElementById("tableModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("tableModal").style.display = "none";
-  }
-</script>
 
 </body>
 </html>

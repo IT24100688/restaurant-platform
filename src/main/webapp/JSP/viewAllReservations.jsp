@@ -43,6 +43,7 @@
       <td><%= r.getName() %></td>
       <td><%= r.getEmail() %></td>
       <td><%= r.getPhone() %></td>
+      <td><%= r.gettableType()%></td>
       <td>
         <!-- Edit Button -->
         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<%= count %>">Edit</button>

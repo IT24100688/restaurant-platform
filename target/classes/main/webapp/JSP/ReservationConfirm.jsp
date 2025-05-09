@@ -51,5 +51,9 @@
   <p><strong>Phone:</strong> <%= phone %></p>
 
 </div>
+<a href="<%= request.getContextPath() %>/JSP/feedback.jsp">
+  <button class="btn btn-primary">Leave Feedback</button>
+</a>
+
 </body>
 </html>
