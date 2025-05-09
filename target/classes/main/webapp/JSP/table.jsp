@@ -1,9 +1,21 @@
+<%@ page import="com.restaurant.model.HotelTableManager" %>
+<%@ page import="java.util.Map" %>
 
 <%
   String hotelName = request.getParameter("hotelName");
   String selectedDate = request.getParameter("selectedDate");
   String selectedTime = request.getParameter("selectedTime");
   String selectedGuests = request.getParameter("selectedGuests");
+%>
+
+
+<%
+  // Get the manager from application scope
+  HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
+
+
+
+  Map<String, Integer> tableCounts = manager.getTableCounts(hotelName);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,6 +120,7 @@
     <div class="table-card vip">
       <div class="icon"></div>
       <h2>VIP Table</h2>
+      <p>Available: <%= tableCounts.get("VIP") %></p
       <p>Exclusive seating for special occasions. Enjoy privacy, premium service, and luxury ambiance.</p>
       <button type="submit" name="tableType" value="VIP Table" class="book-btn">Book VIP Table</button>
     </div>
@@ -115,6 +128,7 @@
     <div class="table-card family">
       <div class="icon"></div>
       <h2>Family Table</h2>
+      <p>Available: <%= tableCounts.get("Family") %></p>
       <p>Spacious and comfortable tables for families and groups. Perfect for sharing meals together.</p>
       <button type="submit" name="tableType" value="Family Table" class="book-btn">Book Family Table</button>
     </div>
@@ -122,6 +136,7 @@
     <div class="table-card outdoor">
       <div class="icon"></div>
       <h2>Outdoor Table</h2>
+      <p>Available: <%= tableCounts.get("Outdoor") %></p>
       <p>Enjoy your meal in the fresh air with our beautifully arranged outdoor seating.</p>
       <button type="submit" name="tableType" value="Outdoor Table" class="book-btn">Book Outdoor Table</button>
     </div>

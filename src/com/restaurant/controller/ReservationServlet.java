@@ -38,6 +38,7 @@ public class ReservationServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String tableType = request.getParameter("tableType");
 
+
         Reservation reservation = new Reservation(
                 reservationId, hotelName, date, time, guests, name, email, phone, tableType
         );

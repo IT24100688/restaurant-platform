@@ -36,9 +36,7 @@ public class Reservation {
         return HotelName;
     }
 
-    public String getDate() {
-        return date;
-    }
+    public String getDate() { return date; }
 
     public String getTime() {
         return time;
@@ -59,6 +57,7 @@ public class Reservation {
     public String getPhone() {
         return phone;
     }
+
     public String gettableType(){
         return tableType;
     }
