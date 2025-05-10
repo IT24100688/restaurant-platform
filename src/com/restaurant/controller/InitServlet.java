@@ -14,7 +14,8 @@ public class InitServlet extends HttpServlet {
     public void init() throws ServletException {
         HotelTableManager manager = new HotelTableManager();
 
-        String path = getServletContext().getRealPath("tableData.txt");
+        String path = getServletContext().getRealPath("/data/tableData.txt");
+
         System.out.println("Loading from file: " + path);
 
 
