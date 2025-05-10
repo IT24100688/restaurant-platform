@@ -10,8 +10,11 @@ import java.util.*;
 
 @WebServlet("/ManageTablesServlet")
 public class ManageTablesServlet extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+
 
         String hotel = request.getParameter("hotelName");
         String type = request.getParameter("tableType");
@@ -20,23 +23,27 @@ public class ManageTablesServlet extends HttpServlet {
 
         HotelTableManager manager = (HotelTableManager) getServletContext().getAttribute("manager");
 
-        if (manager != null && hotel != null && type != null) {
-            if ("add".equalsIgnoreCase(action)) {
-                manager.addTable(hotel, type, count);
-            } else if ("remove".equalsIgnoreCase(action)) {
-                for (int i = 0; i < count; i++) {
-                    manager.removeTable(hotel, type);
-                }
+        if ("add".equalsIgnoreCase(action)) {
+            manager.addTable(hotel, type, count);
+        } else if ("remove".equalsIgnoreCase(action)) {
+            for (int i = 0; i < count; i++) {
+                manager.removeTable(hotel, type);
             }
-
-            saveTableDataToFile(manager);
         }
 
+// Re-save manager to ensure JSP gets the updated object
+        getServletContext().setAttribute("manager", manager);
+
+// Save to file
+        saveTableDataToFile(manager);
+
         response.sendRedirect("JSP/TableAvailabilityAdmin.jsp");
+
+
     }
 
     private void saveTableDataToFile(HotelTableManager manager) {
-        String path = getServletContext().getRealPath("tableData.txt");
+        String path = getServletContext().getRealPath("/WEB-INF/data/tableData.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             for (String hotel : manager.getAllHotelNames()) {
@@ -52,5 +59,6 @@ public class ManageTablesServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

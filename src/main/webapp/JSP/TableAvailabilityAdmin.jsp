@@ -4,6 +4,7 @@
 
 <%
   HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
+
   List<String> hotels = Arrays.asList(
           "Tropical Paradise", "City View Suites", "Mountain Lodge",
           "Luxury Inn", "Urban Retreat", "The Royal Castle"
@@ -87,9 +88,9 @@
     %>
     <tr>
       <td><%= hotel %></td>
-      <td><%= counts.get("Outdoor") %></td>
-      <td><%= counts.get("VIP") %></td>
-      <td><%= counts.get("Family") %></td>
+      <td><%= counts.get("Outdoor") != null ? counts.get("Outdoor") : 0 %></td>
+      <td><%= counts.get("VIP") != null ? counts.get("VIP") : 0 %></td>
+      <td><%= counts.get("Family") != null ? counts.get("Family") : 0 %></td>
       <td>
         <form action="<%= request.getContextPath() %>/ManageTablesServlet" method="post" class="form-inline">
           <input type="hidden" name="hotelName" value="<%= hotel %>">
