@@ -130,7 +130,7 @@
         <!-- Add Hotel Button -->
         <div class="d-flex justify-content-end mb-3">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addHotelModal">
-                <i class="fas fa-plus-circle"></i> Add Hotel
+                <i class="fas fa-plus-circle"></i> Add Restaurant
             </button>
         </div>
 
@@ -238,7 +238,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Add Hotel</button>
+                    <button type="submit" class="btn btn-success">Add Restaurant</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>

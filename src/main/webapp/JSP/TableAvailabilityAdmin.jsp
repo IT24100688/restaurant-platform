@@ -64,7 +64,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
   </style>
 </head>
@@ -79,26 +79,26 @@
       <th>Outdoor</th>
       <th>VIP</th>
       <th>Family</th>
-      <th>Manage Tables</th>
+      <th>Manage</th>
     </tr>
 
     <% for (String hotel : hotels) {
-      Map<String, Integer> counts = manager != null ? manager.getTableCounts(hotel) : new HashMap<>();
+      Map<String, Integer> counts = manager.getTableCounts(hotel);
     %>
     <tr>
       <td><%= hotel %></td>
-      <td><%= counts.getOrDefault("Outdoor", 0) %></td>
-      <td><%= counts.getOrDefault("VIP", 0) %></td>
-      <td><%= counts.getOrDefault("Family", 0) %></td>
+      <td><%= counts.get("Outdoor") %></td>
+      <td><%= counts.get("VIP") %></td>
+      <td><%= counts.get("Family") %></td>
       <td>
         <form action="<%= request.getContextPath() %>/ManageTablesServlet" method="post" class="form-inline">
           <input type="hidden" name="hotelName" value="<%= hotel %>">
           <select name="tableType">
-            <option value="Outdoor">Outdoor</option>
             <option value="VIP">VIP</option>
             <option value="Family">Family</option>
+            <option value="Outdoor">Outdoor</option>
           </select>
-          <input type="number" name="count" value="1" min="1">
+          <input type="number" name="count" value="1" min="1" required>
           <button name="action" value="add">+</button>
           <button name="action" value="remove">−</button>
         </form>

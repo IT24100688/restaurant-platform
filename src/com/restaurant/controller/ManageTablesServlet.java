@@ -29,7 +29,6 @@ public class ManageTablesServlet extends HttpServlet {
                 }
             }
 
-            // ✅ Save the updated table counts to file
             saveTableDataToFile(manager);
         }
 
@@ -37,14 +36,19 @@ public class ManageTablesServlet extends HttpServlet {
     }
 
     private void saveTableDataToFile(HotelTableManager manager) {
-        String path = getServletContext().getRealPath("/WEB-INF/data/tables.txt");
+        String path = getServletContext().getRealPath("tableData.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             for (String hotel : manager.getAllHotelNames()) {
-                writer.write(manager.getHotelDataLine(hotel));
+                Map<String, Integer> counts = manager.getTableCounts(hotel);
+                int vip = counts.get("VIP") != null ? counts.get("VIP") : 0;
+                int family = counts.get("Family") != null ? counts.get("Family") : 0;
+                int outdoor = counts.get("Outdoor") != null ? counts.get("Outdoor") : 0;
+
+                String line = hotel + "|VIP:" + vip + "|Family:" + family + "|Outdoor:" + outdoor;
+                writer.write(line);
                 writer.newLine();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
