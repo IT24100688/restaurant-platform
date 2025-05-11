@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.io.*" %>
+
 <%
-    String filePath = application.getRealPath("/") + "feedbacks.txt";
+    String filePath = application.getRealPath("/") + "data/feedbacks.txt";
     File file = new File(filePath);
     String feedbacks = "";
 

@@ -40,7 +40,7 @@ public class UserAuthServlet extends HttpServlet {
                     return;
                 }
             }
-            User newUser = new User(name, email, phone, password);
+            User newUser = new User(name, email, phone, password, "");
             try (PrintWriter writer = new PrintWriter(new FileWriter(userFile, true))) {
                 writer.println(newUser.toFileFormat());
             }

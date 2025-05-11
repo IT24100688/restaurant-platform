@@ -106,7 +106,7 @@
             <li><a href="#restaurants"><i class="fas fa-store"></i> Manage Restaurants</a></li>
             <li><a href="<%= request.getContextPath() %>/admin/table-availability"><i class="fas fa-chair"></i> Table Availability</a></li>
             <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> Reservations</a></li>
-            <li><a href="viewFeedback.jsp"><i class="fas fa-comment-dots"></i> Feedbacks</a></li>
+            <li><a href="<%= request.getContextPath() %>/JSP/viewFeedback.jsp"><i class="fas fa-comment-dots"></i> Feedbacks</a></li>
             <li><a href="JSP/Logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 
     </ul>

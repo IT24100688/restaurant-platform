@@ -40,6 +40,6 @@ public class UserProfileServlet extends HttpServlet {
         session.setAttribute("name", session.getAttribute("name"));
         session.setAttribute("phone", session.getAttribute("phone"));
 
-        request.getRequestDispatcher("JSP/UserDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("JSP/userProfile.jsp").forward(request, response);
     }
 }

@@ -1,5 +1,7 @@
 package com.restaurant.controller;
 
+
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,9 @@ public class LoginServlet extends HttpServlet {
 
         boolean isValid = false;
 
+        String name = "";
+        String phone = "";
+
         String path = getServletContext().getRealPath(USER_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
@@ -31,6 +36,8 @@ public class LoginServlet extends HttpServlet {
 
                     if (storedEmail.equals(email) && storedPassword.equals(password)) {
                         isValid = true;
+                        name = parts[0];
+                        phone = parts[2];
                         break;
                     }
                 }
@@ -39,6 +46,8 @@ public class LoginServlet extends HttpServlet {
 
         if (isValid) {
             HttpSession session = request.getSession();
+            session.setAttribute("name", name);
+            session.setAttribute("phone", phone);
             session.setAttribute("email", email);
             response.sendRedirect("JSP/userProfile.jsp"); // Redirect to booking page
         } else {

@@ -7,7 +7,8 @@
 
     if (name != null && !name.isEmpty()) {
         // Path to save feedbacks file
-        String filePath = application.getRealPath("/") + "feedbacks.txt";
+        String filePath = application.getRealPath("/data/feedbacks.txt");
+        ;
 
         try {
             FileWriter writer = new FileWriter(filePath, true);
@@ -105,7 +106,7 @@
         </div>
         <h2>Thank You for Your Feedback!</h2>
         <p class="success-message">Your feedback has been successfully submitted.</p>
-        <p><a href="viewFeedback.jsp">Click here to view all feedback.</a></p>
+
     </div>
 
 </body>
