@@ -1,4 +1,4 @@
-package com.restaurant.controller;
+package com.restaurant.model;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

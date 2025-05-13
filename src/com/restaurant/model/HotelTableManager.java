@@ -46,4 +46,8 @@ public class HotelTableManager {
         }
         return result;
     }
+    public void removeHotel(String hotelName) {
+        hotelTables.remove(hotelName);
+    }
+
 }

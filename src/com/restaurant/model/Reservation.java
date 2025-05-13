@@ -22,10 +22,18 @@ public class Reservation {
         this.email = email;
         this.phone = phone;
         this.tableType = tableType;
-
     }
 
     public Reservation(String restaurant, String date, String time, int guests, String name, String email) {
+        this.reservationId = "RES" + System.currentTimeMillis();
+        this.HotelName = restaurant;
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
+        this.name = name;
+        this.email = email;
+        this.phone = "";
+        this.tableType = "";
     }
 
     public String getReservationId() {
@@ -36,7 +44,9 @@ public class Reservation {
         return HotelName;
     }
 
-    public String getDate() { return date; }
+    public String getDate() {
+        return date;
+    }
 
     public String getTime() {
         return time;

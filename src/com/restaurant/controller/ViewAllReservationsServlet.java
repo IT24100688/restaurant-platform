@@ -24,7 +24,7 @@ public class ViewAllReservationsServlet extends HttpServlet {
         List<Reservation> reservationList = new ArrayList<>(reservationQueue);
 
         // 3. Sort the list using Merge Sort (by date & time)
-        MergeSort.sort(reservationList, 0, reservationList.size() - 1);
+        MergeSort.sort(reservationList);
 
         // 4. Convert back to sorted queue
         Queue<Reservation> sortedQueue = new LinkedList<>(reservationList);
