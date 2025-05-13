@@ -8,17 +8,14 @@
     if (name != null && !name.isEmpty()) {
         // Path to save feedbacks file
         String filePath = application.getRealPath("/data/feedbacks.txt");
-        ;
 
         try {
             FileWriter writer = new FileWriter(filePath, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             // Constructing the feedback entry
-            String feedbackEntry = "Name: " + name + "\n" +
-                                   "Rating: " + rating + " stars\n" +
-                                   "Feedback: " + (feedback.isEmpty() ? "No feedback given" : feedback) + "\n" +
-                                   "------------------------\n";
+            String feedbackEntry = name + ":" + rating + ":" + (feedback.isEmpty() ? "No feedback given" : feedback) + "\n";
+
             // Writing to file
             bufferedWriter.write(feedbackEntry);
             bufferedWriter.close();
@@ -33,81 +30,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Submitted</title>
+    <title>Feedback Submitted | ReservEats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e3f2fd;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary-dark: #141E30;
+            --primary-light: #243B55;
+            --accent-color: #d32f2f;
+            --accent-hover: #b71c1c;
+            --success-color: #4CAF50;
+            --success-hover: #388E3C;
         }
 
-        .container {
-            width: 70%;
-            margin: 50px auto;
-            background-color: white;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .confirmation-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
             text-align: center;
-            max-width: 600px;
+            max-width: 500px;
+            width: 90%;
+            margin: 20px;
+        }
+
+        .confirmation-icon {
+            font-size: 60px;
+            color: var(--success-color);
+            margin-bottom: 20px;
         }
 
         h2 {
-            font-size: 2rem;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #555;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .success-message {
-            font-size: 1.5rem;
-            color: #4CAF50;
-            margin-top: 20px;
-            font-weight: bold;
+            color: var(--success-color);
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 25px;
         }
 
-        a {
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #4CAF50;
-            padding: 12px 25px;
+        .feedback-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        .btn-return {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 12px 30px;
             border-radius: 30px;
-            font-size: 1rem;
-            margin-top: 20px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
             display: inline-block;
-            transition: background-color 0.3s;
+            margin-top: 15px;
         }
 
-        a:hover {
-            background-color: #388E3C;
+        .btn-return:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            color: white;
         }
 
-        .icon {
-            font-size: 40px;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        .container p, .container a {
-            margin-top: 20px;
+        .stars {
+            color: #FFC107;
+            font-size: 1.2rem;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="icon">
-            &#x1F44D; <!-- Thumbs Up Emoji -->
-        </div>
-        <h2>Thank You for Your Feedback!</h2>
-        <p class="success-message">Your feedback has been successfully submitted.</p>
-
+<div class="confirmation-card">
+    <div class="confirmation-icon">
+        <i class="fas fa-check-circle"></i>
     </div>
+    <h2>Thank You for Your Feedback!</h2>
+    <p class="success-message">We appreciate you taking the time to share your experience with us.</p>
 
+    <% if (name != null && !name.isEmpty()) { %>
+    <div class="feedback-details">
+        <div class="detail-row">
+            <span class="detail-label">Name:</span> <%= name %>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Rating:</span>
+            <div class="stars">
+                <%
+                    int stars = rating != null ? Integer.parseInt(rating) : 0;
+                    for (int i = 0; i < 5; i++) {
+                        if (i < stars) {
+                %>
+                <i class="fas fa-star"></i>
+                <%  } else { %>
+                <i class="far fa-star"></i>
+                <%  }
+                } %>
+            </div>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Feedback:</span>
+            <%= feedback != null && !feedback.isEmpty() ? feedback : "No feedback given" %>
+        </div>
+    </div>
+    <% } %>
+
+    <a href="<%= request.getContextPath() %>" class="btn-return">
+        <i class="fas fa-arrow-left me-2"></i>Return to Home
+    </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

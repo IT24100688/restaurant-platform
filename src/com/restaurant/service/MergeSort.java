@@ -37,7 +37,7 @@ public class MergeSort {
             Reservation a = leftList.get(i);
             Reservation b = rightList.get(j);
 
-            if (compareByProximity(a, b) <= 0) {
+            if (compareByDateTime(a, b) <= 0) {
                 list.set(k++, a);
                 i++;
             } else {
@@ -57,92 +57,67 @@ public class MergeSort {
         }
     }
 
-    // Compare reservations by proximity to current date
-    private static int compareByProximity(Reservation r1, Reservation r2) {
+    // Compare reservations by date, then by time if dates are equal
+    private static int compareByDateTime(Reservation r1, Reservation r2) {
         try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date today = new Date(); // Current date
-
             // Handle potential null values
             if (r1.getDate() == null) {
-                return (r2.getDate() == null) ? 0 : 1; // Null dates go to the end
+                return (r2.getDate() == null) ? 0 : -1;
             }
             if (r2.getDate() == null) {
-                return -1;
+                return 1;
             }
 
-            Date d1 = df.parse(r1.getDate());
-            Date d2 = df.parse(r2.getDate());
+            // Compare dates first
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = dateFormat.parse(r1.getDate());
+            Date d2 = dateFormat.parse(r2.getDate());
 
-            // Check if dates are in the future or past
-            boolean d1IsFuture = d1.compareTo(today) >= 0;
-            boolean d2IsFuture = d2.compareTo(today) >= 0;
+            int dateComparison = d1.compareTo(d2);
 
-            // If one is future and one is past, prioritize future
-            if (d1IsFuture && !d2IsFuture) return -1;
-            if (!d1IsFuture && d2IsFuture) return 1;
-
-            // If both are in the future, sort by proximity to today
-            if (d1IsFuture && d2IsFuture) {
-                long diff1 = Math.abs(d1.getTime() - today.getTime());
-                long diff2 = Math.abs(d2.getTime() - today.getTime());
-                return Long.compare(diff1, diff2);
+            // If dates are equal, compare times
+            if (dateComparison == 0) {
+                return compareByTime(r1, r2);
             }
 
-            // If both are in the past, sort by most recent first
-            return d2.compareTo(d1);
+            return dateComparison;
 
         } catch (ParseException e) {
             // Log the error
             System.err.println("Error parsing date: " + e.getMessage());
 
             // Fall back to string comparison if parse fails
-            return r1.getDate().compareTo(r2.getDate());
+            int dateCompare = r1.getDate().compareTo(r2.getDate());
+            if (dateCompare == 0) {
+                return compareByTime(r1, r2);
+            }
+            return dateCompare;
         }
     }
 
-    // Sort by time if on same day
+    // Compare reservations by time
     private static int compareByTime(Reservation r1, Reservation r2) {
         if (r1.getTime() == null) {
-            return (r2.getTime() == null) ? 0 : 1;
+            return (r2.getTime() == null) ? 0 : -1;
         }
         if (r2.getTime() == null) {
-            return -1;
-        }
-        return r1.getTime().compareTo(r2.getTime());
-    }
-
-    // Sort reservations by date and time chronologically
-    public static void sortChronologically(List<Reservation> list) {
-        if (list == null || list.size() <= 1) {
-            return;
+            return 1;
         }
 
-        Collections.sort(list, (r1, r2) -> {
-            try {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-
-                if (r1.getDate() == null || r1.getTime() == null) {
-                    return (r2.getDate() == null || r2.getTime() == null) ? 0 : 1;
-                }
-                if (r2.getDate() == null || r2.getTime() == null) {
-                    return -1;
-                }
-
-                Date d1 = df.parse(r1.getDate() + " " + r1.getTime());
-                Date d2 = df.parse(r2.getDate() + " " + r2.getTime());
-
-                return d1.compareTo(d2);
-            } catch (ParseException e) {
-                int dateCompare = r1.getDate().compareTo(r2.getDate());
-                return dateCompare != 0 ? dateCompare : r1.getTime().compareTo(r2.getTime());
-            }
-        });
+        try {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+            Date t1 = timeFormat.parse(r1.getTime());
+            Date t2 = timeFormat.parse(r2.getTime());
+            return t1.compareTo(t2);
+        } catch (ParseException e) {
+            // Fall back to string comparison if parse fails
+            return r1.getTime().compareTo(r2.getTime());
+        }
     }
 
-    // Convenience method to sort in descending order (newest first)
+    // Sort in descending order (latest first)
     public static void sortDescending(List<Reservation> list) {
-        sortChronologically(list);
+        sort(list);
         Collections.reverse(list);
     }
 }

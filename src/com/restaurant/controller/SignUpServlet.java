@@ -19,7 +19,7 @@ public class SignUpServlet extends HttpServlet {
         String filePath = getServletContext().getRealPath("/data/users.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(name + "," + email + "," + number + "," + password);
+            writer.write(name + "|" + email + "|" + number + "|" + password);
             writer.newLine();
         }
 

@@ -208,23 +208,33 @@
   <!-- Account Section -->
   <div id="account" class="section active">
     <h2>Account Details</h2>
-    <form action="<%= request.getContextPath() %>/update-profile" method="post">
-      <label>Full Name</label>
-      <input type="text" name="name" value="<%= user != null && user.getName() != null ? user.getName() : "" %>" readonly>
+    <div class="account-info">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" value="<%= user != null && user.getName() != null ? user.getName() : "" %>" readonly>
+      </div>
 
-      <label>Email</label>
-      <input type="email" name="email" value="<%= user != null ? user.getEmail() : "" %>" readonly>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" value="<%= user != null ? user.getEmail() : "" %>" readonly>
+      </div>
 
-      <label>Phone</label>
-      <input type="text" name="phone" value="<%= user != null && user.getPhone() != null ? user.getPhone() : "" %>" readonly>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" value="<%= user != null && user.getPhone() != null ? user.getPhone() : "" %>" readonly>
+      </div>
 
-      <label>Address</label>
-      <input type="text" name="address" value="<%= user != null && user.getAddress() != null ? user.getAddress() : "" %>" required>
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" value="<%= user != null && user.getAddress() != null ? user.getAddress() : "No address provided" %>" readonly>
+      </div>
 
-
-      <button type="submit" class="btn">Update Info</button>
-    </form>
+      <div class="mt-3">
+        <a href="<%= request.getContextPath() %>/update-profile" class="btn btn-primary">Update Profile</a>
+      </div>
+    </div>
   </div>
+
 
 
   <!-- Reservations Section -->

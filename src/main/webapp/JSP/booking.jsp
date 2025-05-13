@@ -3,260 +3,272 @@
     Hotel hotel = (Hotel) request.getAttribute("selectedHotel");
 %>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Table</title>
+    <title>Book a Table | ReservEats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
         :root {
-            --linear-grad: linear-gradient(to right, #141E30, #243B55);
-            --grad-clr1: #141E30;
-            --grad-clr2: #243B55;
-            --accent-color: #141E30;
-            --accent-hover: #1823dd;
+            --primary-dark: #141E30;
+            --primary-light: #243B55;
+            --accent-color: #d32f2f;
+            --accent-hover: #b71c1c;
+            --text-light: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         body {
-            height: 100vh;
-            background: #f6f5f7;
-            display: grid;
-            place-content: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .booking-container {
             display: flex;
-            width: 850px;
-            height: 500px;
-            background-color: #FFF;
-            box-shadow: 25px 30px 55px #5557;
-            border-radius: 13px;
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
         }
 
-        .restaurant-info {
-            width: 50%;
-            padding: 40px;
-            background: var(--linear-grad);
+        .hotel-info {
+            width: 40%;
+            background: linear-gradient(to bottom, var(--primary-dark), var(--primary-light));
             color: white;
+            padding: 40px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
 
-        .restaurant-info h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .hotel-info h1 {
             font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
-        .restaurant-info p {
-            font-size: 14px;
-            margin-bottom: 10px;
+        .hotel-description {
+            font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
-        .restaurant-info ul {
+        .features-list {
             list-style: none;
             padding: 0;
+            margin-top: auto;
         }
 
-        .restaurant-info li {
-            font-size: 13px;
-            margin-bottom: 5px;
+        .features-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li i {
+            margin-right: 10px;
+            color: var(--text-light);
         }
 
         .booking-form {
-            width: 50%;
+            width: 60%;
             padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
-        .booking-form h2 {
-            color: var(--grad-clr1);
-            margin-bottom: 25px;
-            font-size: 22px;
+        .form-title {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 30px;
             text-align: center;
+            font-size: 1.5rem;
         }
 
         .form-group {
-            position: relative;
             margin-bottom: 20px;
-            width: 100%;
         }
 
-        label {
-            display: block;
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-dark);
             margin-bottom: 8px;
-            font-size: 14px;
-            color: #555;
+            display: block;
         }
 
-        input, select {
+        .form-control {
             width: 100%;
             padding: 12px 15px;
-            background-color: #f3f3f3;
-            border: none;
-            outline: none;
-            border-radius: 5px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
         }
 
-        .underline {
-            position: absolute;
-            left: 50%;
-            top: 100%;
-            transform: translateX(-50%);
-            width: 0%;
-            height: 2px;
-            background: var(--linear-grad);
-            transition: 0.3s;
-        }
-
-        input:focus ~ .underline, select:focus ~ .underline {
-            width: 100%;
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(36, 59, 85, 0.2);
         }
 
         .time-slots {
             display: flex;
             gap: 10px;
-            margin: 15px 0 25px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
 
         .time-slot {
             flex: 1;
-            background: var(--accent-color);
+            min-width: 100px;
+            background-color: var(--primary-dark);
             color: white;
-            padding: 10px;
             border: none;
+            padding: 10px;
+            border-radius: 6px;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            text-align: center;
         }
 
         .time-slot:hover, .time-slot.active {
-            background: var(--accent-hover);
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
         }
 
-        .proceed-btn {
+        .submit-btn {
             width: 100%;
-            background: var(--accent-color);
+            background-color: var(--primary-dark);
             color: white;
-            padding: 12px;
             border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-top: 20px;
             cursor: pointer;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            margin-top: 10px;
+            transition: all 0.3s;
         }
 
-        .proceed-btn:hover {
-            background: var(--accent-hover);
+        .submit-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .booking-container {
+                flex-direction: column;
+            }
+
+            .hotel-info, .booking-form {
+                width: 100%;
+            }
+
+            .hotel-info {
+                padding-bottom: 30px;
+            }
         }
     </style>
 </head>
 <body>
-<form action=JSP/table.jsp METHOD="get">
+<form action="JSP/table.jsp" method="get">
     <input type="hidden" name="hotelName" value="<%= hotel != null ? hotel.getName() : "" %>">
     <input type="hidden" name="selectedTime" id="selectedTimeInput">
     <input type="hidden" name="selectedGuests" id="selectedGuestsInput">
     <input type="hidden" name="selectedDate" id="selectedDateInput">
 
-
     <div class="booking-container">
-        <!-- Left Side: Dynamic Hotel Info -->
-        <div class="restaurant-info">
-            <h1><%= hotel != null ? hotel.getName() : "Hotel Name" %></h1>
-            <p><%= hotel != null ? hotel.getDescription()
-                    : "Hotel description not found." %></p>
-            <% if (hotel != null) { %>
-            <ul style="padding-left: 20px;">
-                <% for (String f : hotel.getFeatures()) { %>
-                <li style="margin-bottom: 5px;">✅ <%= f %></li>
+        <!-- Hotel Information Section -->
+        <div class="hotel-info">
+            <h1><%= hotel != null ? hotel.getName() : "Restaurant" %></h1>
+            <p class="hotel-description">
+                <%= hotel != null ? hotel.getDescription() : "Premium dining experience with exceptional service and ambiance." %>
+            </p>
+
+            <% if (hotel != null && !hotel.getFeatures().isEmpty()) { %>
+            <ul class="features-list">
+                <% for (String feature : hotel.getFeatures()) { %>
+                <li><i class="fas fa-check-circle"></i> <%= feature %></li>
                 <% } %>
             </ul>
             <% } %>
         </div>
 
-        <!-- Right Side: Booking Form -->
+        <!-- Booking Form Section -->
         <div class="booking-form">
-            <h2>Make a Reservation</h2>
+            <h2 class="form-title"><i class="fas fa-calendar-alt me-2"></i>Make a Reservation</h2>
 
             <div class="form-group">
-                <label for="guests">Number of People</label>
-                <select id="guests">
-                    <option value="1">1 Person</option>
-                    <option value="2">2 People</option>
-                    <option value="3">3 People</option>
-                    <option value="4">4 People</option>
-                    <option value="5">5 People</option>
-                    <option value="6">6 People</option>
-                    <option value="7">7 People</option>
-                    <option value="8">8 People</option>
-                    <option value="9">9 People</option>
-                    <option value="10">10 People</option>
+                <label for="guests" class="form-label">Number of Guests</label>
+                <select id="guests" class="form-control">
+                    <% for (int i = 1; i <= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %> <%= i == 1 ? "Person" : "People" %></option>
+                    <% } %>
                 </select>
-                <span class="underline"></span>
             </div>
 
             <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date">
-                <span class="underline"></span>
+                <label for="date" class="form-label">Reservation Date</label>
+                <input type="date" id="date" class="form-control" required>
             </div>
 
-            <label>Select a time</label>
-            <div class="time-slots">
-                <button type="button" class="time-slot">8:30 PM</button>
-                <button type="button" class="time-slot">8:45 PM</button>
-                <button type="button" class="time-slot">9:00 PM</button>
+            <div class="form-group">
+                <label class="form-label">Select Time Slot</label>
+                <div class="time-slots">
+                    <button type="button" class="time-slot">6:00 PM</button>
+                    <button type="button" class="time-slot">6:30 PM</button>
+                    <button type="button" class="time-slot">7:00 PM</button>
+                    <button type="button" class="time-slot">7:30 PM</button>
+                    <button type="button" class="time-slot">8:00 PM</button>
+                    <button type="button" class="time-slot">8:30 PM</button>
+                </div>
             </div>
 
-            <button type="submit" class="proceed-btn">Proceed</button>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-arrow-right me-2"></i>Proceed to Table Selection
+            </button>
         </div>
     </div>
 </form>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const guestSelect = document.getElementById('guests');
-    const dateInput = document.getElementById('date');
-    const timeButtons = document.querySelectorAll('.time-slot');
-    const timeInput = document.getElementById('selectedTimeInput');
-    const guestsInput = document.getElementById('selectedGuestsInput');
-    const dateHiddenInput = document.getElementById('selectedDateInput');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').min = today;
 
-    document.querySelector('form').addEventListener('submit', function(event) {
-        const selectedTime = document.querySelector('.time-slot.active');
-        if (!selectedTime) {
-            alert("Please select a time slot!");
-            event.preventDefault();
-            return;
-        }
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                timeSlots.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('selectedTimeInput').value = this.textContent.trim();
+            });
+        });
 
-        timeInput.value = selectedTime.textContent.trim();
-        guestsInput.value = guestSelect.value;
-        dateHiddenInput.value = dateInput.value;
-    });
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const guests = document.getElementById('guests').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('selectedTimeInput').value;
 
-    timeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            timeButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+            if (!time) {
+                e.preventDefault();
+                alert('Please select a time slot');
+                return;
+            }
+
+            document.getElementById('selectedGuestsInput').value = guests;
+            document.getElementById('selectedDateInput').value = date;
         });
     });
 </script>

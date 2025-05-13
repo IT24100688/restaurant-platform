@@ -40,7 +40,7 @@ public class UserAuthServlet extends HttpServlet {
                     return;
                 }
             }
-            User newUser = new User(name, email, phone, password, "");
+            User newUser = new User(name, email, phone, password, ""); // Initialize with empty address
             try (PrintWriter writer = new PrintWriter(new FileWriter(userFile, true))) {
                 writer.println(newUser.toFileFormat());
             }
@@ -49,6 +49,7 @@ public class UserAuthServlet extends HttpServlet {
         }
 
         else if ("login".equals(action)) {
+            boolean foundUser = false;
             for (User u : users) {
                 if (u.getEmail().equalsIgnoreCase(email) && u.getPassword().equals(password)) {
                     HttpSession session = request.getSession();
@@ -56,14 +57,21 @@ public class UserAuthServlet extends HttpServlet {
                     session.setAttribute("email", u.getEmail());
                     session.setAttribute("name", u.getName());
                     session.setAttribute("phone", u.getPhone());
-// ✅ Redirect to the dashboard
+                    session.setAttribute("address", u.getAddress());
 
+                    System.out.println("Login successful for: " + u.getEmail());
+                    System.out.println("Address loaded: " + u.getAddress());
+
+                    foundUser = true;
                     response.sendRedirect("user-dashboard");
                     return;
                 }
             }
-            request.setAttribute("error", "Invalid email or password.");
-            request.getRequestDispatcher("JSP/Signup.jsp").forward(request, response);
+
+            if (!foundUser) {
+                request.setAttribute("error", "Invalid email or password.");
+                request.getRequestDispatcher("JSP/Signup.jsp").forward(request, response);
+            }
         }
     }
 
@@ -73,10 +81,14 @@ public class UserAuthServlet extends HttpServlet {
             String line;
             while ((line = reader.readLine()) != null) {
                 User user = User.fromLine(line);
-                if (user != null) users.add(user);
+                if (user != null) {
+                    users.add(user);
+                    System.out.println("Loaded user: " + user.getEmail() + ", Address: " + user.getAddress());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Error reading users file: " + e.getMessage());
         }
         return users;
     }

@@ -6,142 +6,241 @@
   String selectedDate = request.getParameter("selectedDate");
   String selectedTime = request.getParameter("selectedTime");
   String selectedGuests = request.getParameter("selectedGuests");
-%>
 
-
-<%
   // Get the manager from application scope
   HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
 
-
+  // Redirect if manager is null
+  if (manager == null) {
+    response.sendRedirect(request.getContextPath() + "/InitServlet");
+    return;
+  }
 
   Map<String, Integer> tableCounts = manager.getTableCounts(hotelName);
+
+  // Check if all table types have zero availability
+  boolean allTablesUnavailable =
+          (tableCounts.getOrDefault("VIP", 0) <= 0) &&
+                  (tableCounts.getOrDefault("Family", 0) <= 0) &&
+                  (tableCounts.getOrDefault("Outdoor", 0) <= 0);
+
+  // Redirect to error page if all tables are unavailable
+  if (allTablesUnavailable) {
+    response.sendRedirect(request.getContextPath() + "/JSP/noTablesAvailable.jsp");
+    return;
+  }
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Select Your Table | Table Booking</title>
+  <title>Select Your Table | ReservEats</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-dark: #141E30;
+      --primary-light: #243B55;
+      --accent-color: #d32f2f;
+      --accent-hover: #b71c1c;
+      --text-light: #f8f9fa;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f8f8f8;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8fafc;
+      color: #333;
       margin: 0;
       padding: 0;
     }
-    header {
-      background: #141E30;
-      color: #fff;
-      padding: 24px 0;
+
+    .header {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+      color: white;
+      padding: 40px 0;
       text-align: center;
-      letter-spacing: 2px;
+      margin-bottom: 40px;
     }
+
+    .header h1 {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
     .container {
-      max-width: 1000px;
-      margin: 40px auto;
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 0 20px;
     }
-    .table-types {
+
+    .table-selection {
       display: flex;
       flex-wrap: wrap;
-      gap: 32px;
+      gap: 30px;
       justify-content: center;
+      margin-bottom: 50px;
     }
+
     .table-card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(44,62,80,0.08);
-      width: 300px;
-      padding: 32px 24px 24px 24px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      width: 320px;
+      padding: 30px;
       text-align: center;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--primary-dark);
     }
+
     .table-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 8px 24px rgba(44,62,80,0.16);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
-    .table-card .icon {
+
+    .table-icon {
       font-size: 48px;
-      margin-bottom: 18px;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
     }
-    .table-card.vip { border-top: 4px solid #141E30; }
-    .table-card.family { border-top: 4px solid #141E30; }
-    .table-card.outdoor { border-top: 4px solid #141E30; }
-    .table-card h2 {
-      margin: 0 0 12px 0;
-      font-size: 1.4rem;
-      color: #141E30;
-      letter-spacing: 1px;
+
+    .table-card h3 {
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin-bottom: 15px;
     }
-    .table-card p {
+
+    .availability {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--primary-light);
+    }
+
+    .no-availability {
+      color: var(--accent-color);
+    }
+
+    .table-description {
       color: #666;
-      font-size: 1rem;
-      margin-bottom: 22px;
-      min-height: 44px;
+      margin-bottom: 25px;
+      min-height: 60px;
     }
-    .book-btn {
-      background: #2d3e50;
-      color: #fff;
+
+    .btn-book {
+      background-color: var(--primary-dark);
+      color: white;
       border: none;
-      padding: 12px 32px;
+      padding: 12px 30px;
       border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      letter-spacing: 1px;
+      font-weight: 500;
+      transition: all 0.3s;
+      width: 100%;
     }
-    .table-card.vip .book-btn { background: #141E30;  }
-    .table-card.family .book-btn { background: #141E30; }
-    .table-card.outdoor .book-btn { background: #141E30; }
-    .book-btn:hover {
-      opacity: 0.88;
+
+    .btn-book:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
     }
-    @media (max-width: 900px) {
-      .table-types { flex-direction: column; align-items: center; }
-      .table-card { width: 90%; }
+
+    .btn-book:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .table-card {
+        width: 100%;
+      }
+
+      .header {
+        padding: 30px 0;
+      }
     }
   </style>
 </head>
 <body>
-<header>
-  <h1>Select Your Table</h1>
-  <p>Choose the perfect table for your dining experience</p>
-</header>
-<form action="reservationForm.jsp" method="post">
-  <input type="hidden" name="hotelName" value="<%= request.getParameter("hotelName") %>">
-  <input type="hidden" name="selectedDate" value="<%= request.getParameter("selectedDate") %>">
-  <input type="hidden" name="selectedTime" value="<%= request.getParameter("selectedTime") %>">
-  <input type="hidden" name="selectedGuests" value="<%= request.getParameter("selectedGuests") %>">
-
+<div class="header">
   <div class="container">
-  <div class="table-types">
-    <!-- VIP Table -->
-    <div class="table-card vip">
-      <div class="icon"></div>
-      <h2>VIP Table</h2>
-      <p>Available: <%= tableCounts.get("VIP") %></p
-      <p>Exclusive seating for special occasions. Enjoy privacy, premium service, and luxury ambiance.</p>
-      <button type="submit" name="tableType" value="VIP Table" class="book-btn">Book VIP Table</button>
-    </div>
-    <!-- Family Table -->
-    <div class="table-card family">
-      <div class="icon"></div>
-      <h2>Family Table</h2>
-      <p>Available: <%= tableCounts.get("Family") %></p>
-      <p>Spacious and comfortable tables for families and groups. Perfect for sharing meals together.</p>
-      <button type="submit" name="tableType" value="Family Table" class="book-btn">Book Family Table</button>
-    </div>
-    <!-- Outdoor Table -->
-    <div class="table-card outdoor">
-      <div class="icon"></div>
-      <h2>Outdoor Table</h2>
-      <p>Available: <%= tableCounts.get("Outdoor") %></p>
-      <p>Enjoy your meal in the fresh air with our beautifully arranged outdoor seating.</p>
-      <button type="submit" name="tableType" value="Outdoor Table" class="book-btn">Book Outdoor Table</button>
-    </div>
+    <h1>Select Your Table</h1>
+    <p>Choose the perfect table for your dining experience at <%= hotelName %></p>
   </div>
 </div>
-  </form>
+
+<form action="reservationForm.jsp" method="post">
+  <input type="hidden" name="hotelName" value="<%= hotelName %>">
+  <input type="hidden" name="selectedDate" value="<%= selectedDate %>">
+  <input type="hidden" name="selectedTime" value="<%= selectedTime %>">
+  <input type="hidden" name="selectedGuests" value="<%= selectedGuests %>">
+
+  <div class="container">
+    <div class="table-selection">
+      <!-- VIP Table -->
+      <div class="table-card">
+        <div class="table-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <h3>VIP Table</h3>
+        <div class="availability <%= tableCounts.getOrDefault("VIP", 0) <= 0 ? "no-availability" : "" %>">
+          Available: <%= tableCounts.getOrDefault("VIP", 0) %>
+        </div>
+        <p class="table-description">
+          Exclusive seating for special occasions. Enjoy privacy, premium service, and luxury ambiance.
+        </p>
+        <button type="submit" name="tableType" value="VIP" class="btn-book"
+                <%= tableCounts.getOrDefault("VIP", 0) <= 0 ? "disabled" : "" %>>
+          Book VIP Table
+        </button>
+      </div>
+
+      <!-- Family Table -->
+      <div class="table-card">
+        <div class="table-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>Family Table</h3>
+        <div class="availability <%= tableCounts.getOrDefault("Family", 0) <= 0 ? "no-availability" : "" %>">
+          Available: <%= tableCounts.getOrDefault("Family", 0) %>
+        </div>
+        <p class="table-description">
+          Spacious and comfortable tables for families and groups. Perfect for sharing meals together.
+        </p>
+        <button type="submit" name="tableType" value="Family" class="btn-book"
+                <%= tableCounts.getOrDefault("Family", 0) <= 0 ? "disabled" : "" %>>
+          Book Family Table
+        </button>
+      </div>
+
+      <!-- Outdoor Table -->
+      <div class="table-card">
+        <div class="table-icon">
+          <i class="fas fa-umbrella-beach"></i>
+        </div>
+        <h3>Outdoor Table</h3>
+        <div class="availability <%= tableCounts.getOrDefault("Outdoor", 0) <= 0 ? "no-availability" : "" %>">
+          Available: <%= tableCounts.getOrDefault("Outdoor", 0) %>
+        </div>
+        <p class="table-description">
+          Enjoy the breeze while you savor your meal,
+          with comfortable seating and beautiful views of our outdoor space.
+        </p>
+        <button type="submit" name="tableType" value="Outdoor" class="btn-book"
+                <%= tableCounts.getOrDefault("Outdoor", 0) <= 0 ? "disabled" : "" %>>
+          Book Outdoor Table
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

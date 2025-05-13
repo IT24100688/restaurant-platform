@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
+                String[] parts = line.split("\\|");
                 if (parts.length >= 4) {
                     String storedEmail = parts[1];
                     String storedPassword = parts[3];

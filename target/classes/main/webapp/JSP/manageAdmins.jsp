@@ -248,12 +248,7 @@
   </div>
   <ul class="sidebar-menu">
     <li><a href="<%=request.getContextPath()%>/super-admin-dashboard" class="active"><i class="fas fa-user-shield"></i> <span>Super Admin</span></a></li>
-    <li><a href="<%=request.getContextPath()%>/admin-dashboard"><i class="fas fa-hotel"></i> <span>Manage Hotels</span></a></li>
-    <li><a href="<%= request.getContextPath() %>/admin/table-availability"><i class="fas fa-chair"></i> <span>Table Availability</span></a></li>
-    <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> <span>Reservations</span></a></li>
-    <li><a href="<%= request.getContextPath() %>/JSP/viewFeedback.jsp"><i class="fas fa-comment-dots"></i> <span>Feedbacks</span></a></li>
-    <li><a href="<%= request.getContextPath()%>/JSP/Logout.jsp"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
-  </ul>
+
 </div>
 
 <!-- Main Content -->

@@ -12,7 +12,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.address = address; // Use the parameter value, not empty string
+        this.address = address;
     }
 
     // Add backward-compatible constructor
@@ -21,7 +21,7 @@ public class User {
     }
 
     public String getAddress() {
-        return address;
+        return address == null ? "" : address;
     }
 
     public String getName() {
@@ -45,16 +45,31 @@ public class User {
     }
 
     public static User fromLine(String line) {
-        String[] parts = line.split("\\|");
+        if (line == null || line.trim().isEmpty()) {
+            return null;
+        }
+
+        // Check if file uses commas instead of pipes and handle accordingly
+        String[] parts;
+        if (line.contains("|")) {
+            parts = line.split("\\|");
+        } else {
+            parts = line.split(",");
+        }
+
         if (parts.length >= 4) {
             String address = parts.length >= 5 ? parts[4] : "";
+            // Trim all parts to remove extra whitespace
+            for (int i = 0; i < parts.length; i++) {
+                parts[i] = parts[i].trim();
+            }
             return new User(parts[0], parts[1], parts[2], parts[3], address);
         }
         return null;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = address == null ? "" : address;
     }
 
     public void setName(String name) {
