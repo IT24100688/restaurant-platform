@@ -11,7 +11,7 @@ public class Hotel {
     private String imageUrl;
     private List<String> features;
 
-    // ✅ Constructor with 5 parameters
+    //Constructor with 5 parameters
     public Hotel(String name, String description, String location, String imageUrl, List<String> features) {
         this.name = name;
         this.description = description;

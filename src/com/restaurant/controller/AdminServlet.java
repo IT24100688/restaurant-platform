@@ -37,9 +37,16 @@ public class AdminServlet extends HttpServlet {
         if (isAuthenticated) {
             HttpSession session = request.getSession();
             session.setAttribute("admin", true);
+            if ("superadmin".equals(username) || "123".equals(password)) {
+                // Redirect to super admin dashboard
+                response.sendRedirect("super-admin-dashboard");
+            } else {
+                // Redirect to normal admin dashboard
+                response.sendRedirect("admin-dashboard");
+            }
 
             // ✅ Redirect to servlet (which loads hotels and forwards to adminDashboard.jsp)
-            response.sendRedirect("admin-dashboard");
+
         } else {
             // ❌ Show error in login page
             response.sendRedirect("JSP/adminLogin.jsp?error=invalid+username+or+password");

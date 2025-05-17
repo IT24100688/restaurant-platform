@@ -1,17 +1,19 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="SignUpServlet" method="post">
-            <h1>Create Account</h1>
+        <form action="<%= request.getContextPath() %>/SignUpServlet" method="post">
+
+        <h1>Create Account</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
@@ -19,22 +21,26 @@
             </div>
             <span>or use your email for registration</span>
             <div class="infield">
-                <input type="text" placeholder="Name" />
+                <input type="text" placeholder="Name" name="name" required />
                 <label></label>
             </div>
             <div class="infield">
-                <input type="email" placeholder="Email" name="email"/>
+                <input type="email" placeholder="Email" name="email" required />
+                <label></label>
+            </div>
+            <div class="infield phone-field">
+                <input type="tel" placeholder="Phone Number" name="number" required />
                 <label></label>
             </div>
             <div class="infield">
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" name="password" required />
                 <label></label>
             </div>
-            <button>Sign Up</button>
+            <button type="submit">Sign Up</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="LoginServlet" method="post" >
+        <form action="<%=request.getContextPath()%>/LoginServlet" method="post">
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -43,33 +49,35 @@
             </div>
             <span>or use your account</span>
             <div class="infield">
-                <input type="email" placeholder="Email" name="email"/>
+                <input type="email" placeholder="Email" name="email" required />
                 <label></label>
             </div>
             <div class="infield">
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" name="password" required />
                 <label></label>
             </div>
             <a href="#" class="forgot">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
     </div>
     <div class="overlay-container" id="overlayCon">
         <div class="overlay">
             <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button>Sign In</button>
-            </div>
-            <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
                 <button>Sign Up</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button>Sign In</button>
             </div>
         </div>
         <button id="overlayBtn"></button>
     </div>
 </div>
+</body>
+</html>
 
 <script>
     document.getElementById('overlayBtn').addEventListener('click', function() {
@@ -93,7 +101,7 @@ box-sizing: border-box;
 
 body {
 height: 100vh;
-background: #f6f5f7;
+background: url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80 ");
 display: grid;
 place-content: center;
 font-family: 'Poppins', sans-serif;

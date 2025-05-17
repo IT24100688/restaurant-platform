@@ -1,7 +1,6 @@
 package com.restaurant.controller;
 
 
-
 import com.restaurant.model.Hotel;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,6 +47,16 @@ public class AddHotelServlet extends HttpServlet {
             writer.newLine(); // move to next line
             writer.write(hotelLine);
         }
+
+        // Add default table data for the new hotel
+        String tableDataPath = getServletContext().getRealPath("/data/tableData.txt");
+        try (BufferedWriter tableWriter = new BufferedWriter(new FileWriter(tableDataPath, true))) {
+            // Default values: 2 VIP tables, 3 Family tables, 1 Outdoor table
+            String tableDataLine = name + "|VIP:1|Family:1|Outdoor:1";
+            tableWriter.newLine(); // move to next line
+            tableWriter.write(tableDataLine);
+        }
+
 
         // 6. Redirect back to dashboard
         response.sendRedirect("admin-dashboard");
