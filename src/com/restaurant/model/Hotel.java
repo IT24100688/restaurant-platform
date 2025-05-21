@@ -10,6 +10,21 @@ public class Hotel {
     private String location;
     private String imageUrl;
     private List<String> features;
+    // Add these instance variables INSIDE your existing Hotel class:
+    private MyQueue<Table> vipQueue = new MyQueue<>(50);
+    private MyQueue<Table> outdoorQueue = new MyQueue<>(50);
+    private MyQueue<Table> familyQueue = new MyQueue<>(50);
+
+    // Add this method to retrieve the queue by type:
+    public MyQueue<Table> getQueueByType(String type) {
+        switch (type) {
+            case "VIP": return vipQueue;
+            case "Outdoor": return outdoorQueue;
+            case "Family": return familyQueue;
+            default: return null;
+        }
+    }
+
 
     //Constructor with 5 parameters
     public Hotel(String name, String description, String location, String imageUrl, List<String> features) {

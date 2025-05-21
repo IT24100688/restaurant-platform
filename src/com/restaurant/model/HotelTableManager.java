@@ -3,23 +3,26 @@ package com.restaurant.model;
 import java.util.*;
 
 public class HotelTableManager {
-    private Map<String, Map<String, Queue<Table>>> hotelTables = new HashMap<>();
+    private Hotel[] hotels = new Hotel[100];
+    private int hotelCount = 0;
 
-    public void addHotel(String hotelName) {
-        Map<String, Queue<Table>> tableTypes = new HashMap<>();
-        tableTypes.put("VIP", new LinkedList<>());
-        tableTypes.put("Outdoor", new LinkedList<>());
-        tableTypes.put("Family", new LinkedList<>());
-        hotelTables.put(hotelName, tableTypes);
+    public void addHotel(Hotel hotel) {
+        if (findHotel(hotel.getName()) != null) return;
+        hotels[hotelCount++] = hotel;
     }
 
-    public Set<String> getAllHotelNames() {
-        return hotelTables.keySet();
+    public String[] getAllHotelNames() {
+        String[] names = new String[hotelCount];
+        for (int i = 0; i < hotelCount; i++) {
+            names[i] = hotels[i].getName();
+        }
+        return names;
     }
 
     public void addTable(String hotelName, String type, int count) {
-        if (!hotelTables.containsKey(hotelName)) return;
-        Queue<Table> queue = hotelTables.get(hotelName).get(type);
+        Hotel hotel = findHotel(hotelName);
+        if (hotel == null) return;
+        MyQueue<Table> queue = hotel.getQueueByType(type);
         if (queue == null) return;
         for (int i = 0; i < count; i++) {
             queue.offer(new Table(type));
@@ -27,27 +30,49 @@ public class HotelTableManager {
     }
 
     public void removeTable(String hotelName, String type) {
-        if (!hotelTables.containsKey(hotelName)) return;
-        Queue<Table> queue = hotelTables.get(hotelName).get(type);
+        Hotel hotel = findHotel(hotelName);
+        if (hotel == null) return;
+        MyQueue<Table> queue = hotel.getQueueByType(type);
         if (queue == null || queue.isEmpty()) return;
         queue.poll();
     }
 
     public int getAvailableCount(String hotelName, String type) {
-        if (!hotelTables.containsKey(hotelName)) return 0;
-        Queue<Table> queue = hotelTables.get(hotelName).get(type);
+        Hotel hotel = findHotel(hotelName);
+        if (hotel == null) return 0;
+        MyQueue<Table> queue = hotel.getQueueByType(type);
         return queue != null ? queue.size() : 0;
     }
 
-    public Map<String, Integer> getTableCounts(String hotelName) {
-        Map<String, Integer> result = new HashMap<>();
-        for (String type : Arrays.asList("VIP", "Outdoor", "Family")) {
-            result.put(type, getAvailableCount(hotelName, type)); // returns 0 safely
-        }
-        return result;
-    }
-    public void removeHotel(String hotelName) {
-        hotelTables.remove(hotelName);
+    public int[] getTableCounts(String hotelName) {
+        Hotel hotel = findHotel(hotelName);
+        if (hotel == null) return new int[]{0, 0, 0};
+        return new int[]{
+                hotel.getQueueByType("VIP").size(),
+                hotel.getQueueByType("Outdoor").size(),
+                hotel.getQueueByType("Family").size()
+        };
     }
 
+    public void removeHotel(String hotelName) {
+        for (int i = 0; i < hotelCount; i++) {
+            if (hotels[i].getName().equals(hotelName)) {
+                for (int j = i; j < hotelCount - 1; j++) {
+                    hotels[j] = hotels[j + 1];
+                }
+                hotels[--hotelCount] = null;
+                break;
+            }
+        }
+    }
+
+    private Hotel findHotel(String name) {
+        for (int i = 0; i < hotelCount; i++) {
+            if (hotels[i].getName().equals(name)) {
+                return hotels[i];
+            }
+        }
+        return null;
+    }
 }
+

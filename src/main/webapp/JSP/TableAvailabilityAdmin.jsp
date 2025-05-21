@@ -4,7 +4,7 @@
 
 <%
   HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
-  Set<String> hotels = null;
+  String[] hotels = null;
 
   if (manager != null) {
     hotels = manager.getAllHotelNames();
@@ -261,7 +261,6 @@
     <h3><i class="fas fa-utensils"></i> <span>ReservEats</span></h3>
   </div>
   <ul class="sidebar-menu">
-
     <li><a href="<%=request.getContextPath()%>/admin-dashboard"><i class="fas fa-hotel"></i> <span>Manage Hotels</span></a></li>
     <li><a href="<%= request.getContextPath() %>/admin/table-availability" class="active"><i class="fas fa-chair"></i> <span>Table Availability</span></a></li>
     <li><a href="<%= request.getContextPath() %>/ViewAllReservationsServlet"><i class="fas fa-calendar-check"></i> <span>Reservations</span></a></li>
@@ -281,30 +280,33 @@
       <thead>
       <tr>
         <th>Restaurant</th>
-        <th>Outdoor Tables</th>
         <th>VIP Tables</th>
         <th>Family Tables</th>
+        <th>Outdoor Tables</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
-      <% if (hotels != null && !hotels.isEmpty()) {
+      <% if (hotels != null && hotels.length > 0) {
         for (String hotel : hotels) {
-          Map<String, Integer> counts = manager.getTableCounts(hotel);
+          int[] counts = manager.getTableCounts(hotel);
+          int vip = counts[0];    // VIP is at index 0
+          int family = counts[2]; // Family is at index 2
+          int outdoor = counts[1]; // Outdoor is at index 1
       %>
       <tr>
         <td class="hotel-name"><%= hotel %></td>
         <td>
-          <span class="count-badge"><%= counts.get("Outdoor") != null ? counts.get("Outdoor") : 0 %></span>
-          <span class="table-type outdoor">Outdoor</span>
-        </td>
-        <td>
-          <span class="count-badge"><%= counts.get("VIP") != null ? counts.get("VIP") : 0 %></span>
+          <span class="count-badge"><%= vip %></span>
           <span class="table-type vip">VIP</span>
         </td>
         <td>
-          <span class="count-badge"><%= counts.get("Family") != null ? counts.get("Family") : 0 %></span>
+          <span class="count-badge"><%= family %></span>
           <span class="table-type family">Family</span>
+        </td>
+        <td>
+          <span class="count-badge"><%= outdoor %></span>
+          <span class="table-type outdoor">Outdoor</span>
         </td>
         <td>
           <form action="<%= request.getContextPath() %>/ManageTablesServlet" method="post" class="form-inline">

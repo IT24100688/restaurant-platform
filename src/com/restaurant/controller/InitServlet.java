@@ -1,6 +1,9 @@
 package com.restaurant.controller;
 
 import com.restaurant.model.HotelTableManager;
+import com.restaurant.model.Hotel;
+import java.util.ArrayList;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,7 +43,7 @@ public class InitServlet extends HttpServlet {
         if (parts.length < 2) return;
 
         String hotelName = parts[0];
-        manager.addHotel(hotelName);
+        manager.addHotel(new Hotel(hotelName, "", "", "", new ArrayList<>()));
 
         for (int i = 1; i < parts.length; i++) {
             String[] pair = parts[i].split(":");
@@ -53,4 +56,5 @@ public class InitServlet extends HttpServlet {
             }
         }
     }
+
 }

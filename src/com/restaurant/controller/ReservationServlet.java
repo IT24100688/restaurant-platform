@@ -95,11 +95,10 @@ public class ReservationServlet extends HttpServlet {
 
         try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.FileWriter(path))) {
             for (String hotel : manager.getAllHotelNames()) {
-                java.util.Map<String, Integer> counts = manager.getTableCounts(hotel);
-
-                int vip = counts.get("VIP") != null ? counts.get("VIP") : 0;
-                int family = counts.get("Family") != null ? counts.get("Family") : 0;
-                int outdoor = counts.get("Outdoor") != null ? counts.get("Outdoor") : 0;
+                int[] counts = manager.getTableCounts(hotel);
+                int vip = counts[0];
+                int outdoor = counts[1];
+                int family = counts[2];
 
                 String line = hotel + "|VIP:" + vip + "|Family:" + family + "|Outdoor:" + outdoor;
                 writer.write(line);

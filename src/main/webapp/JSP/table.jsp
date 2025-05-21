@@ -7,29 +7,29 @@
   String selectedTime = request.getParameter("selectedTime");
   String selectedGuests = request.getParameter("selectedGuests");
 
-  // Get the manager from application scope
   HotelTableManager manager = (HotelTableManager) application.getAttribute("manager");
 
-  // Redirect if manager is null
   if (manager == null) {
     response.sendRedirect(request.getContextPath() + "/InitServlet");
     return;
   }
 
-  Map<String, Integer> tableCounts = manager.getTableCounts(hotelName);
+  int[] tableCounts = manager.getTableCounts(hotelName);
+  int vipCount = tableCounts[0];
+  int outdoorCount = tableCounts[1];
+  int familyCount = tableCounts[2];
 
-  // Check if all table types have zero availability
   boolean allTablesUnavailable =
-          (tableCounts.getOrDefault("VIP", 0) <= 0) &&
-                  (tableCounts.getOrDefault("Family", 0) <= 0) &&
-                  (tableCounts.getOrDefault("Outdoor", 0) <= 0);
+          (vipCount <= 0) &&
+                  (familyCount <= 0) &&
+                  (outdoorCount <= 0);
 
-  // Redirect to error page if all tables are unavailable
   if (allTablesUnavailable) {
     response.sendRedirect(request.getContextPath() + "/JSP/noTablesAvailable.jsp");
     return;
   }
 %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -184,59 +184,32 @@
   <div class="container">
     <div class="table-selection">
       <!-- VIP Table -->
-      <div class="table-card">
-        <div class="table-icon">
-          <i class="fas fa-crown"></i>
-        </div>
-        <h3>VIP Table</h3>
-        <div class="availability <%= tableCounts.getOrDefault("VIP", 0) <= 0 ? "no-availability" : "" %>">
-          Available: <%= tableCounts.getOrDefault("VIP", 0) %>
-        </div>
-        <p class="table-description">
-          Exclusive seating for special occasions. Enjoy privacy, premium service, and luxury ambiance.
-        </p>
-        <button type="submit" name="tableType" value="VIP" class="btn-book"
-                <%= tableCounts.getOrDefault("VIP", 0) <= 0 ? "disabled" : "" %>>
-          Book VIP Table
-        </button>
+      <div class="availability <%= vipCount <= 0 ? "no-availability" : "" %>">
+        Available: <%= vipCount %>
       </div>
+      <button type="submit" name="tableType" value="VIP" class="btn-book"
+              <%= vipCount <= 0 ? "disabled" : "" %>>
+        Book VIP Table
+      </button>
 
       <!-- Family Table -->
-      <div class="table-card">
-        <div class="table-icon">
-          <i class="fas fa-users"></i>
-        </div>
-        <h3>Family Table</h3>
-        <div class="availability <%= tableCounts.getOrDefault("Family", 0) <= 0 ? "no-availability" : "" %>">
-          Available: <%= tableCounts.getOrDefault("Family", 0) %>
-        </div>
-        <p class="table-description">
-          Spacious and comfortable tables for families and groups. Perfect for sharing meals together.
-        </p>
-        <button type="submit" name="tableType" value="Family" class="btn-book"
-                <%= tableCounts.getOrDefault("Family", 0) <= 0 ? "disabled" : "" %>>
-          Book Family Table
-        </button>
+      <div class="availability <%= familyCount <= 0 ? "no-availability" : "" %>">
+        Available: <%= familyCount %>
       </div>
+      <button type="submit" name="tableType" value="Family" class="btn-book"
+              <%= familyCount <= 0 ? "disabled" : "" %>>
+        Book Family Table
+      </button>
 
       <!-- Outdoor Table -->
-      <div class="table-card">
-        <div class="table-icon">
-          <i class="fas fa-umbrella-beach"></i>
-        </div>
-        <h3>Outdoor Table</h3>
-        <div class="availability <%= tableCounts.getOrDefault("Outdoor", 0) <= 0 ? "no-availability" : "" %>">
-          Available: <%= tableCounts.getOrDefault("Outdoor", 0) %>
-        </div>
-        <p class="table-description">
-          Enjoy the breeze while you savor your meal,
-          with comfortable seating and beautiful views of our outdoor space.
-        </p>
-        <button type="submit" name="tableType" value="Outdoor" class="btn-book"
-                <%= tableCounts.getOrDefault("Outdoor", 0) <= 0 ? "disabled" : "" %>>
-          Book Outdoor Table
-        </button>
+      <div class="availability <%= outdoorCount <= 0 ? "no-availability" : "" %>">
+        Available: <%= outdoorCount %>
       </div>
+      <button type="submit" name="tableType" value="Outdoor" class="btn-book"
+              <%= outdoorCount <= 0 ? "disabled" : "" %>>
+        Book Outdoor Table
+      </button>
+
     </div>
   </div>
 </form>
